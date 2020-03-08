@@ -13,6 +13,8 @@
 
 ## Example
 
+As above
+
 ```typescript
 import { spawn, Main, Worker } from '@sinclair/threadbox'
 
