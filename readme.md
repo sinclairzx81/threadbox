@@ -66,7 +66,7 @@ import { spawn, Main, Worker } from '@sinclair/threadbox'
 
 ThreadBox is a threading library for NodeJS. It is built on top of the NodeJS `worker_threads` API and uses a recursive pattern to spawn new worker threads. ThreadBox will spin up the application entry module (typically `app.js`) for each spawned worker. Because each spawned worker shares the same entry as the main thread, `class` and `function` definitions are available to each spawned worker. This pattern allows for same file threading and generally a more intuitive programming model than spreading related logic across multiple `.js` files.
 
-ThreadBox is primarily written for use with TypeScript but does provide a no decorator fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
+ThreadBox is primarily written for use with TypeScript but does provide a non-decorator fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
 Built with Node 12.16.1 LTS and TypeScript 3.8.3.
 
@@ -109,7 +109,8 @@ import { Main } from '@sinclair/threadbox'
 <a name="Worker"></a >
 ## Worker
 
-Denotes a class as worker thread which allows it to `spawn()`. Any class may be denoted as a `@Worker()`. When spawned, the parent thread will be able to execute all of the the classes functions (see `spawn()` section for details). The classes `constructor` will be called when the worker is created and the `dispose()` method will be called when the parent thread has choosen to `dispose()` the worker.
+Denotes a class as worker thread which allows it to `spawn()`. Any class may be denoted as a `@Worker()`. When spawned, the parent thread will be able to execute all the functions of the class (see `spawn()` section for details). The classes `constructor` will be called when the worker is created and the `dispose()` method will be called when the parent thread has chosen to `dispose()` of the worker.
+
 ```typescript
 import { Worker } from '@sinclair/threadbox'
 
@@ -133,7 +134,7 @@ import { Worker } from '@sinclair/threadbox'
 
 
 ## Transfer
-Denotes a class as being transferrable. It enables instances of this class to be marshalled across thread boundaries.
+Denotes a class as being transferrable. It enables instances of the class to be marshalled across thread boundaries.
 ```typescript
 import { Transfer } from '@sinclair/threadbox'
 
@@ -146,7 +147,7 @@ import { Transfer } from '@sinclair/threadbox'
 // JavaScript users can use __Transfer(Foo) if
 // decorators are not available.
 ```
-Internally, ThreadBox communicates between threads using  `postMessage(...)`. However, only data can be sent, not functions. Passing class instances to threads will result in a loss of that classes functions at the receiver. The `@Transfer` decorator informs ThreadBox that it should marshall and reconstruct instances of the class at the receiver.
+Internally, ThreadBox communicates between threads using  `postMessage(...)`. However, only data can be sent, not functions. Passing class instances to workers will result in a loss of the classes functions at the receiver. The `@Transfer` decorator informs ThreadBox that it should marshall and reconstruct instances of the class at the receiver.
 
 This functionality allows logic to be passed from parent thread to worker thread without manually needing to reconstruct the appropriate class instance at the receiver.
 
