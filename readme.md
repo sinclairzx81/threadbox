@@ -63,7 +63,9 @@ import { spawn, Main, Worker } from '@sinclair/threadbox'
 
 ThreadBox is a threading library for NodeJS. It is built on top of the NodeJS `worker_threads` API and uses a recursive pattern to spawn new worker threads. ThreadBox will spin up the application entry module (typically `app.js`) for each spawned worker. Because each spawned worker shares the same entry as the main thread, `class` and `function` definitions are available to each spawned worker. This pattern allows for same file threading and generally a more intuitive programming model than spreading related logic across multiple `.js` files.
 
-This library is offered as is to anyone who may find it of use.
+ThreadBox is primarily written for use with TypeScript but does provide a no decorator fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
+
+Built with Node 12.16.1 LTS and TypeScript 3.8.3.
 
 Licence MIT
 
