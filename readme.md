@@ -86,6 +86,7 @@ $ npm install @sinclair/threadbox --save
 - [Worker](#Worker)
 - [Transfer](#Transfer)
 - [spawn](#spawn)
+- [SharedArrayBuffer](#SharedArrayBuffer)
 
 <a name="Main"></a>
 ## Main
@@ -191,3 +192,53 @@ import { spawn, Main, Worker, WorkerInterface } from '@sinclair/threadbox'
 The return type of `spawn()` is a `WorkerInterface<T>`. It provides all the classes methods and one additional method named `dispose()` that will terminate the worker.
 
 All functions on `WorkerInterface<T>` are async. 
+
+<a name="shared"></a>
+
+## SharedArrayBuffer
+
+The following demonstrates using `SharedArrayBuffer` to parallelize operations performed across a shared `Float32Array`. The shared buffer is sent to 4 workers with an index to store the result.
+
+```typescript
+import { spawn, Main, Worker } from '@sinclair/threadbox'
+
+@Worker() class ComputeForIndex {
+    execute(buffer: Float32Array, index: number) {
+        // sleep 5 seconds
+        const started = Date.now()
+        while((Date.now() - started) < 5000) {}
+        buffer[index] = Math.random()
+    }
+}
+
+@Main() default class {
+    async main() {
+        // 4 x 32bit floats
+        const shared = new SharedArrayBuffer(4 * 4)
+        const buffer = new Float32Array(shared)
+
+        // spin up 4 workers
+        const c_0 = spawn(ComputeForIndex)
+        const c_1 = spawn(ComputeForIndex)
+        const c_2 = spawn(ComputeForIndex)
+        const c_3 = spawn(ComputeForIndex)
+
+        // process in parallel
+        await Promise.all([
+            c_0.execute(buffer, 0),
+            c_1.execute(buffer, 1),
+            c_2.execute(buffer, 2),
+            c_3.execute(buffer, 3)
+        ])
+
+        // clean up
+        c_0.dispose()
+        c_1.dispose()
+        c_2.dispose()
+        c_3.dispose()
+
+        // result
+        console.log('result', buffer)
+    }
+}
+```
