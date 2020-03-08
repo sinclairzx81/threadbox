@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "strict": true,  
+        "experimentalDecorators": true,
+        "module": "CommonJS",
+        "target": "ESNext",
+        "outDir": "../dist",
+        "declaration": true
+    }, "files": [
+        "index.ts"
+    ],
+    
+}

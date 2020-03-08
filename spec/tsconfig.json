@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "experimentalDecorators": true,
+        "target": "ESNext",
+        "baseUrl": ".",
+        "paths": {
+          "@sinclair/threadbox": [
+            "../src/index"
+          ]
+        }
+    }, "files": [
+        "index.ts"
+    ],
+    
+}
