@@ -4,8 +4,8 @@
 
 <p>Recursive Multi-Threaded Worker Processes in NodeJS</p>
 
-[![npm version](https://badge.fury.io/js/%40sinclair%2Ftypebox.svg)](https://badge.fury.io/js/%40sinclair%2Ftypebox)
-[![Build Status](https://travis-ci.org/sinclairzx81/typebox.svg?branch=master)](https://travis-ci.org/sinclairzx81/TypeBox)
+[![npm version](https://badge.fury.io/js/%40sinclair%2Fthreadbox.svg)](https://badge.fury.io/js/%40sinclair%2Fthreadbox)
+[![Build Status](https://travis-ci.org/sinclairzx81/threadbox.svg?branch=master)](https://travis-ci.org/sinclairzx81/threadbox)
 
 <img src='./docs/logo.png'></img>
 
