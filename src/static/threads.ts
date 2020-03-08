@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 
-ThreadBox - Recursive multi threaded worker processes in NodeJS
+ThreadBox - Recursive Multi-Threaded Worker Processes in NodeJS
 
 The MIT License (MIT)
 
