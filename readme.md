@@ -232,10 +232,10 @@ import { spawn, Main, Worker } from '@sinclair/threadbox'
         ])
 
         // clean up
-        c_0.dispose()
-        c_1.dispose()
-        c_2.dispose()
-        c_3.dispose()
+        await c_0.dispose()
+        await c_1.dispose()
+        await c_2.dispose()
+        await c_3.dispose()
 
         // result
         console.log('result', buffer)
