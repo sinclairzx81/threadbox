@@ -214,7 +214,7 @@ import { spawn, Main, Worker } from '@sinclair/threadbox'
 @Main() default class {
     async main() {
         // 4 x 32bit floats
-        const shared = new SharedArrayBuffer(4 * 4)
+        const shared = new SharedArrayBuffer(4 * Float32Array.BYTES_PER_ELEMENT)
         const buffer = new Float32Array(shared)
 
         // spin up 4 workers
