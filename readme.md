@@ -128,7 +128,7 @@ import { Worker } from '@sinclair/threadbox'
 
 
 ## Transfer
-Denotes a class as being transferrable. It enables instance of this class to be marshalled across thread boundaries.
+Denotes a class as being transferrable. It enables instances of this class to be marshalled across thread boundaries.
 ```typescript
 import { Transfer } from '@sinclair/threadbox'
 
@@ -143,7 +143,7 @@ import { Transfer } from '@sinclair/threadbox'
 ```
 Internally, ThreadBox communicates between threads using  `postMessage(...)`. However, only data can be sent, not functions. Passing class instances to threads will result in a loss of that classes functions at the receiver. The `@Transfer` decorator informs ThreadBox that it should marshall and reconstruct instances of the class at the receiver.
 
-This functionality allows logic to be pass from parent thread to worker thread without manually needing to reconstruct the appropriate class instance at the receiver.
+This functionality allows logic to be passed from parent thread to worker thread without manually needing to reconstruct the appropriate class instance at the receiver.
 
 <a name="spawn"></a >
 ## spawn()
