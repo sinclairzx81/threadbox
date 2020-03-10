@@ -252,7 +252,7 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
             console.log('recv', value)
         }
         // dispose
-        await thread.dispose()
+        await worker.dispose()
     }
 }
 ```
