@@ -304,7 +304,7 @@ import { spawn, Main, Thread, Marshal } from '@sinclair/threadbox'
 
 ## Mutex
 
-ThreadBox provides a Mutex primitive that can be used to enter into critical sections of code. 
+ThreadBox provides a `Mutex` primitive that is built upon on JavaScript [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics). It is used to enter into critical sections of code.
 
 ```typescript
 import { Mutex } from '@sinclair/threadbox'
