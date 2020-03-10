@@ -1,7 +1,7 @@
 {
   "name": "@sinclair/threadbox",
   "version": "0.8.3",
-  "description": "Recursive multi threaded worker processes in NodeJS",
+  "description": "Recursive Multi-Threaded Worker Processes in NodeJS",
   "keywords": [
     "worker-threads",
     "parallelism",
