@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 export { channel, select, Sender, Receiver, EOF }            from './channel/index'
 export { into }                                              from './async/index'
-
+export { Mutex, MutexLock }                                  from './mutex/index'
 import { ThreadLocal, ThreadRegistry, ThreadHandle, Spawn }  from './thread/index'
 import { MarshalEncoder }                                    from './marshal/index'
 

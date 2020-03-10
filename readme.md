@@ -13,7 +13,7 @@
 
 ## Example
 
-The following code replicates the above worker topology.
+The following code replicates the above worker topology. See [here](./doc/example.js) for non-decorator implementation.
 
 ```typescript
 import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/threadbox'
@@ -37,7 +37,6 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
         ])
         await sender.send([a, b, c, d])
         await sender.end()
-        
         await c_0.dispose()
         await c_1.dispose()
         await c_2.dispose()
@@ -95,6 +94,7 @@ $ npm install @sinclair/threadbox --save
 - [Spawn](#Spawn)
 - [Channel](#Channel)
 - [Marshal](#Marshal)
+- [Mutex](#Mutex)
 - [SharedArrayBuffer](#SharedArrayBuffer)
 
 <a name="Main"></a>
@@ -298,6 +298,61 @@ import { spawn, Main, Thread, Marshal } from '@sinclair/threadbox'
 
 // JavaScript users can use __Marshal(Foo) if
 // decorators are not available.
+```
+
+<a name="Mutex"></a>
+
+## Mutex
+
+ThreadBox provides a Mutex primitive that can be used to enter into critical sections of code. 
+
+```typescript
+import { Mutex } from '@sinclair/threadbox'
+
+const mutex = new Mutex()
+
+const lock = mutex.lock()
+
+// critical section
+
+lock.dispose()
+```
+
+The example below spawns 4 instances of the `Worker` class. A `Mutex` instance is passed into each thread where by the worker takes a `MutexLock` on the `execute()` method. The worker thread holds onto their respective lock for 1 second before releasing. Only 1 of the 4 workers will execute the critical section commented below. The timeout is used to demonstrate the locking behavior.
+
+```typescript
+import { spawn, Main, Thread, Mutex } from '@sinclair/threadbox'
+
+@Thread() class Worker {
+    execute(mutex: Mutex) {
+        const lock = mutex.lock()
+        //
+        // critical section !!
+        //
+        setTimeout(() => lock.dispose(), 1000)
+    }
+}
+@Main() default class {
+    async main() {
+        const worker_0 = spawn(Worker)
+        const worker_1 = spawn(Worker)
+        const worker_2 = spawn(Worker)
+        const worker_3 = spawn(Worker)
+
+        const mutex  = new Mutex()
+        await Promise.all([
+            worker_0.execute(mutex),
+            worker_1.execute(mutex),
+            worker_2.execute(mutex),
+            worker_3.execute(mutex)
+        ]) // .. 4 seconds approx
+
+        await worker_0.dispose()
+        await worker_1.dispose()
+        await worker_2.dispose()
+        await worker_3.dispose()
+    }
+}
 ```
 
 <a name="SharedArrayBuffer"></a>

@@ -1,12 +1,15 @@
-import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/threadbox'
+// JavaScript version of the ThreadBox readme example.
 
-@Thread() class WorkerC {
+import { spawn, __Main, __Thread, channel } from '@sinclair/threadbox'
+
+class WorkerC {
     run() {
         return Math.random()
     }
-}
-@Thread() class WorkerB {
-    async run(sender: Sender) {
+}; __Thread(WorkerC)
+
+class WorkerB {
+    async run(sender) {
         const c_0 = spawn(WorkerC)
         const c_1 = spawn(WorkerC)
         const c_2 = spawn(WorkerC)
@@ -24,14 +27,16 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
         await c_2.dispose()
         await c_3.dispose()
     }
-}
-@Thread() class WorkerA {
-    async run(receiver: Receiver) {
+}; __Thread(WorkerB)
+
+class WorkerA {
+    async run(receiver) {
         const [a, b, c, d] = await receiver.receive()
     }
-}
+}; __Thread(WorkerA)
+
 // start here ...
-@Main() default class {
+class Program {
     async main() {
         const [sender, receiver] = channel()
         const a = spawn(WorkerA)
@@ -43,4 +48,4 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
         await a.dispose()
         await b.dispose()
     }
-}
+}; __Main(Program)

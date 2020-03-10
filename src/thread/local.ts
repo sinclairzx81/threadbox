@@ -100,8 +100,8 @@ export class ThreadLocal {
             if(isMainThread) {
                 const constructor = ThreadRegistry.getMainConstructor()
                 if (constructor) {
-                    const instance = new constructor(process.argv)
-                    await instance.main()
+                    const instance = new constructor()
+                    await instance.main(process.argv)
                 }
             } 
             // Activate worker
