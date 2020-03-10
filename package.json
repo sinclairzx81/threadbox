@@ -1,8 +1,12 @@
 {
   "name": "@sinclair/threadbox",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Recursive multi threaded worker processes in NodeJS",
-  "keywords": ["worker-threads", "parallelism", "threading"],
+  "keywords": [
+    "worker-threads",
+    "parallelism",
+    "threading"
+  ],
   "author": "sinclairzx81",
   "license": "MIT",
   "main": "./index.js",
@@ -13,6 +17,7 @@
   },
   "scripts": {
     "build": "smoke-task build",
+    "build-doc": "smoke-task build_doc",
     "test": "smoke-task test",
     "start": "smoke-task watch"
   },
@@ -20,6 +25,7 @@
     "@types/node": "^12.12.6",
     "smoke-run": "^1.1.0",
     "smoke-task": "^1.1.2",
+    "typedoc": "^0.16.11",
     "typescript": "^3.7.2",
     "typescript-bundle": "^1.0.16"
   }

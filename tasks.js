@@ -15,6 +15,12 @@ export async function watch() {
     ])
 }
 
+/** Builds the project documentation. */
+export async function build_doc() {
+    await folder('doc/typedoc').delete().exec()
+    await shell('typedoc --out doc/typedoc --project src/tsconfig.json').exec()
+}
+
 /** Builds redistributable in the 'dist' directory. */
 export async function build() {
     await folder('dist').delete().exec()
