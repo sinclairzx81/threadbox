@@ -31,7 +31,7 @@ class WorkerB {
 
 class WorkerA {
     async run(receiver) {
-        const [a, b, c, d] = await receiver.receive()
+        for await(const [a, b, c, d] of receiver) { }
     }
 }; __Thread(WorkerA)
 

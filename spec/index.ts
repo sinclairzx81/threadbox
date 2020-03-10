@@ -27,7 +27,7 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 }
 @Thread() class WorkerA {
     async run(receiver: Receiver) {
-        const [a, b, c, d] = await receiver.receive()
+        for await(const [a, b, c, d] of receiver) { }
     }
 }
 // start here ...
