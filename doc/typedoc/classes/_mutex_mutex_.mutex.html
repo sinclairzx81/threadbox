@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;channel/queue&quot; | @sinclair/threadbox</title>
+	<title>Mutex | @sinclair/threadbox</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,27 +56,101 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_channel_queue_.html">&quot;channel/queue&quot;</a>
+					<a href="../modules/_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
+				</li>
+				<li>
+					<a href="_mutex_mutex_.mutex.html">Mutex</a>
 				</li>
 			</ul>
-			<h1>External module &quot;channel/queue&quot;</h1>
+			<h1>Class Mutex</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A mutual exclusion primitive. Instances of this type
+							can be shared between threads and used to lock critical
+						sections.</p>
+					</div>
+					<pre><code class="language-typescript"><span class="hljs-keyword">const</span> mutex = <span class="hljs-keyword">new</span> Mutex()
+
+<span class="hljs-keyword">const</span> lock = mutex.lock()
+
+<span class="hljs-comment">// critical section</span>
+
+lock.dispose()</code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Mutex</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../classes/_channel_queue_.queue.html" class="tsd-kind-icon">Queue</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_mutex_mutex_.mutex.html#__lock" class="tsd-kind-icon">__lock</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_mutex_mutex_.mutex.html#lock" class="tsd-kind-icon">lock</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="__lock" class="tsd-anchor"></a>
+					<h3>__lock</h3>
+					<div class="tsd-signature tsd-kind-icon">__lock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Int32Array</span><span class="tsd-signature-symbol"> = new Int32Array(new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT))</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/a30d3db/src/mutex/mutex.ts#L58">src/mutex/mutex.ts:58</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="lock" class="tsd-anchor"></a>
+					<h3>lock</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_mutex_mutex_.mutexlock.html" class="tsd-signature-type">MutexLock</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/a30d3db/src/mutex/mutex.ts#L66">src/mutex/mutex.ts:66</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Acquires a lock. This function will block the JavaScript
+										thread an wait for the lock to become available. This
+										function returns a <code>MutexLock</code> which the caller will
+									manually need to dispose().</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_mutex_mutex_.mutexlock.html" class="tsd-signature-type">MutexLock</a></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -87,80 +161,95 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_async_index_.html">&quot;async/index&quot;</a>
+						<a href="../modules/_async_index_.html">&quot;async/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_async_into_.html">&quot;async/into&quot;</a>
+						<a href="../modules/_async_into_.html">&quot;async/into&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_channel_.html">&quot;channel/channel&quot;</a>
+						<a href="../modules/_channel_channel_.html">&quot;channel/channel&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_defer_.html">&quot;channel/defer&quot;</a>
+						<a href="../modules/_channel_defer_.html">&quot;channel/defer&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_duplex_.html">&quot;channel/duplex&quot;</a>
+						<a href="../modules/_channel_duplex_.html">&quot;channel/duplex&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_index_.html">&quot;channel/index&quot;</a>
+						<a href="../modules/_channel_index_.html">&quot;channel/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_protocol_.html">&quot;channel/protocol&quot;</a>
+						<a href="../modules/_channel_protocol_.html">&quot;channel/protocol&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_channel_queue_.html">&quot;channel/queue&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_channel_select_.html">&quot;channel/select&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_marshal_encoder_.html">&quot;marshal/encoder&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_marshal_index_.html">&quot;marshal/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_marshal_registry_.html">&quot;marshal/registry&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_marshal_transfer_.html">&quot;marshal/transfer&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_mutex_index_.html">&quot;mutex/index&quot;</a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_channel_queue_.html">&quot;channel/queue&quot;</a>
+						<a href="../modules/_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_channel_select_.html">&quot;channel/select&quot;</a>
+						<a href="../modules/_reflect_index_.html">&quot;reflect/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_index_.html">&quot;index&quot;</a>
+						<a href="../modules/_reflect_reflect_.html">&quot;reflect/reflect&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_marshal_encoder_.html">&quot;marshal/encoder&quot;</a>
+						<a href="../modules/_thread_index_.html">&quot;thread/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_marshal_index_.html">&quot;marshal/index&quot;</a>
+						<a href="../modules/_thread_local_.html">&quot;thread/local&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_marshal_registry_.html">&quot;marshal/registry&quot;</a>
+						<a href="../modules/_thread_protocol_.html">&quot;thread/protocol&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_marshal_transfer_.html">&quot;marshal/transfer&quot;</a>
+						<a href="../modules/_thread_registry_.html">&quot;thread/registry&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_mutex_index_.html">&quot;mutex/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_reflect_index_.html">&quot;reflect/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_reflect_reflect_.html">&quot;reflect/reflect&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_index_.html">&quot;thread/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_local_.html">&quot;thread/local&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_protocol_.html">&quot;thread/protocol&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_registry_.html">&quot;thread/registry&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_spawn_.html">&quot;thread/spawn&quot;</a>
+						<a href="../modules/_thread_spawn_.html">&quot;thread/spawn&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../classes/_channel_queue_.queue.html" class="tsd-kind-icon">Queue</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_mutex_mutex_.mutex.html" class="tsd-kind-icon">Mutex</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_mutex_mutex_.mutex.html#__lock" class="tsd-kind-icon">__lock</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_mutex_mutex_.mutex.html#lock" class="tsd-kind-icon">lock</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_mutex_mutex_.mutexlock.html" class="tsd-kind-icon">Mutex<wbr>Lock</a>
 					</li>
 				</ul>
 			</nav>

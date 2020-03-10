@@ -67,14 +67,14 @@
 				<div align='center'>
 					<h1>ThreadBox</h1>
 					<p>Recursive Multi-Threaded Worker Processes in NodeJS</p>
-					<p><a href="https://badge.fury.io/js/%40sinclair%2FThreadBox"><img src="https://badge.fury.io/js/%40sinclair%2FThreadBox.svg" alt="npm version"></a>
-					<a href="https://travis-ci.org/sinclairzx81/ThreadBox"><img src="https://travis-ci.org/sinclairzx81/ThreadBox.svg?branch=master" alt="Build Status"></a></p>
+					<p><a href="https://badge.fury.io/js/%40sinclair%2Fthreadbox"><img src="https://badge.fury.io/js/%40sinclair%2Fthreadbox.svg" alt="npm version"></a>
+					<a href="https://travis-ci.org/sinclairzx81/threadbox"><img src="https://travis-ci.org/sinclairzx81/threadbox.svg?branch=master" alt="Build Status"></a></p>
 					<p><img src='https://raw.githubusercontent.com/sinclairzx81/threadbox/master/doc/threadbox.png'></img></p>
 				</div>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h2>Example</h2>
 				</a>
-				<p>The following code replicates the above worker topology.</p>
+				<p>The following code replicates the above worker topology. See <a href="./doc/example.js">here</a> for non-decorator implementation.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Thread, channel, Sender, Receiver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
 
 <span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> WorkerC {
@@ -95,6 +95,7 @@
             c_3.run(),
         ])
         <span class="hljs-keyword">await</span> sender.send([a, b, c, d])
+        <span class="hljs-keyword">await</span> sender.end()
         <span class="hljs-keyword">await</span> c_0.dispose()
         <span class="hljs-keyword">await</span> c_1.dispose()
         <span class="hljs-keyword">await</span> c_2.dispose()
@@ -145,6 +146,7 @@
 					<li><a href="#Spawn">Spawn</a></li>
 					<li><a href="#Channel">Channel</a></li>
 					<li><a href="#Marshal">Marshal</a></li>
+					<li><a href="#Mutex">Mutex</a></li>
 					<li><a href="#SharedArrayBuffer">SharedArrayBuffer</a></li>
 				</ul>
 				<p><a name="Main"></a></p>
@@ -283,7 +285,7 @@
             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'recv'</span>, value)
         }
         <span class="hljs-comment">// dispose</span>
-        <span class="hljs-keyword">await</span> thread.dispose()
+        <span class="hljs-keyword">await</span> worker.dispose()
     }
 }</code></pre>
 				<p><a name="Marshal"></a></p>
@@ -322,6 +324,53 @@
 
 <span class="hljs-comment">// JavaScript users can use __Marshal(Foo) if</span>
 <span class="hljs-comment">// decorators are not available.</span></code></pre>
+				<p><a name="Mutex"></a></p>
+				<a href="#mutex" id="mutex" style="color: inherit; text-decoration: none;">
+					<h2>Mutex</h2>
+				</a>
+				<p>ThreadBox provides a Mutex primitive that can be used to enter into critical sections of code. </p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Mutex } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-keyword">const</span> mutex = <span class="hljs-keyword">new</span> Mutex()
+
+<span class="hljs-keyword">const</span> lock = mutex.lock()
+
+<span class="hljs-comment">// critical section</span>
+
+lock.dispose()</code></pre>
+				<p>The example below spawns 4 instances of the <code>Worker</code> class. A <code>Mutex</code> instance is passed into each thread where by the worker takes a <code>MutexLock</code> on the <code>execute()</code> method. The worker thread holds onto their respective lock for 1 second before releasing. Only 1 of the 4 workers will execute the critical section commented below. The timeout is used to demonstrate the locking behavior.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Thread, Mutex } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
+    execute(mutex: Mutex) {
+        <span class="hljs-keyword">const</span> lock = mutex.lock()
+        <span class="hljs-comment">//</span>
+        <span class="hljs-comment">// critical section !!</span>
+        <span class="hljs-comment">//</span>
+        setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> lock.dispose(), <span class="hljs-number">1000</span>)
+    }
+}
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+    <span class="hljs-keyword">async</span> main() {
+        <span class="hljs-keyword">const</span> worker_0 = spawn(Worker)
+        <span class="hljs-keyword">const</span> worker_1 = spawn(Worker)
+        <span class="hljs-keyword">const</span> worker_2 = spawn(Worker)
+        <span class="hljs-keyword">const</span> worker_3 = spawn(Worker)
+
+        <span class="hljs-keyword">const</span> mutex  = <span class="hljs-keyword">new</span> Mutex()
+        <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+            worker_0.execute(mutex),
+            worker_1.execute(mutex),
+            worker_2.execute(mutex),
+            worker_3.execute(mutex)
+        ]) <span class="hljs-comment">// .. 4 seconds approx</span>
+
+        <span class="hljs-keyword">await</span> worker_0.dispose()
+        <span class="hljs-keyword">await</span> worker_1.dispose()
+        <span class="hljs-keyword">await</span> worker_2.dispose()
+        <span class="hljs-keyword">await</span> worker_3.dispose()
+    }
+}</code></pre>
 				<p><a name="SharedArrayBuffer"></a></p>
 				<a href="#sharedarraybuffer" id="sharedarraybuffer" style="color: inherit; text-decoration: none;">
 					<h2>SharedArrayBuffer</h2>
@@ -417,6 +466,12 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_marshal_transfer_.html">&quot;marshal/transfer&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mutex_index_.html">&quot;mutex/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_reflect_index_.html">&quot;reflect/index&quot;</a>
