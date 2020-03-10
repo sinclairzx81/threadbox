@@ -26,24 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-export function is_object(value: any) {
-    return typeof value === 'object' && !Array.isArray(value)
-}
+export { ThreadRegistry }      from './registry'
+export { ThreadLocal }         from './local'
+export { ThreadHandle, Spawn } from './spawn'
 
-export function is_array(value: any) {
-    return typeof value === 'object' && Array.isArray(value)
-}
-
-export function is_native(value: any) {
-    const constructor = value.constructor
-    return constructor === Int8Array ||
-           constructor === Int16Array ||
-           constructor === Int32Array ||
-           constructor === Uint8Array ||
-           constructor === Uint16Array ||
-           constructor === Uint32Array ||
-           constructor === Float32Array || 
-           constructor === Float64Array ||
-           constructor === Uint8ClampedArray ||
-           constructor === SharedArrayBuffer
-}

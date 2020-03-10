@@ -1,0 +1,509 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@sinclair/threadbox</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@sinclair/threadbox</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@sinclair/threadbox</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<div align='center'>
+					<h1>ThreadBox</h1>
+					<p>Recursive Multi-Threaded Worker Processes in NodeJS</p>
+					<p><a href="https://badge.fury.io/js/%40sinclair%2FThreadBox"><img src="https://badge.fury.io/js/%40sinclair%2FThreadBox.svg" alt="npm version"></a>
+					<a href="https://travis-ci.org/sinclairzx81/ThreadBox"><img src="https://travis-ci.org/sinclairzx81/ThreadBox.svg?branch=master" alt="Build Status"></a></p>
+					<p><img src='./doc/threadbox.png'></img></p>
+				</div>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h2>Example</h2>
+				</a>
+				<p>The following code replicates the above worker topology.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Thread, channel, Sender, Receiver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> WorkerC {
+    run() {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random()
+    }
+}
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> WorkerB {
+    <span class="hljs-keyword">async</span> run(sender: Sender) {
+        <span class="hljs-keyword">const</span> c_0 = spawn(WorkerC)
+        <span class="hljs-keyword">const</span> c_1 = spawn(WorkerC)
+        <span class="hljs-keyword">const</span> c_2 = spawn(WorkerC)
+        <span class="hljs-keyword">const</span> c_3 = spawn(WorkerC)
+        <span class="hljs-keyword">const</span> [a, b, c, d] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+            c_0.run(),
+            c_1.run(),
+            c_2.run(),
+            c_3.run(),
+        ])
+        <span class="hljs-keyword">await</span> sender.send([a, b, c, d])
+        <span class="hljs-keyword">await</span> c_0.dispose()
+        <span class="hljs-keyword">await</span> c_1.dispose()
+        <span class="hljs-keyword">await</span> c_2.dispose()
+        <span class="hljs-keyword">await</span> c_3.dispose()
+    }
+}
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> WorkerA {
+    <span class="hljs-keyword">async</span> run(receiver: Receiver) {
+        <span class="hljs-keyword">const</span> [a, b, c, d] = <span class="hljs-keyword">await</span> receiver.receive()
+    }
+}
+<span class="hljs-comment">// start here ...</span>
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+    <span class="hljs-keyword">async</span> main() {
+        <span class="hljs-keyword">const</span> [sender, receiver] = channel()
+        <span class="hljs-keyword">const</span> a = spawn(WorkerA)
+        <span class="hljs-keyword">const</span> b = spawn(WorkerB)
+        <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+            a.run(receiver),
+            b.run(sender) 
+        ])
+        <span class="hljs-keyword">await</span> a.dispose()
+        <span class="hljs-keyword">await</span> b.dispose()
+    }
+}</code></pre>
+				<p><a name="Overview"></a></p>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
+				<p>ThreadBox is a threading library for JavaScript that is built on top of the NodeJS <code>worker_threads</code> API. It is written to allow for compute intensive JavaScript or WASM processes to be trivially parallalized and distributed across many threads.</p>
+				<p>ThreadBox works by using process recursion to spawn new worker threads. When spawning a thread, ThreadBox will start it using the current threads entry module (typically <code>app.js</code>). Internally it provides switching logic within the new thread to instance one of the denoted <code>@Thread</code> classes. Because each new thread is started from the same entry module as the host thread; <code>const</code>, <code>class</code> and <code>function</code> definitions defined in the host are available to each subsequent thread. This pattern allows for ergonomic same file threading seen in other languages and is generally more intuitive than spreading logic across multiple <code>.js</code> files.</p>
+				<p>ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.</p>
+				<p>Built with Node 12.16.1 LTS and TypeScript 3.8.3.</p>
+				<p>Licence MIT</p>
+				<p><a name="Install"></a></p>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<pre><code class="language-bash">$ npm install @sinclair/threadbox --save</code></pre>
+				<a href="#contents" id="contents" style="color: inherit; text-decoration: none;">
+					<h2>Contents</h2>
+				</a>
+				<ul>
+					<li><a href="#Install">Install</a></li>
+					<li><a href="#Overview">Overview</a></li>
+					<li><a href="#Main">Main</a></li>
+					<li><a href="#Thread">Thread</a></li>
+					<li><a href="#Spawn">Spawn</a></li>
+					<li><a href="#Channel">Channel</a></li>
+					<li><a href="#Marshal">Marshal</a></li>
+					<li><a href="#SharedArrayBuffer">SharedArrayBuffer</a></li>
+				</ul>
+				<p><a name="Main"></a></p>
+				<a href="#main" id="main" style="color: inherit; text-decoration: none;">
+					<h2>Main</h2>
+				</a>
+				<p>A decorator that denotes a class as the program entry point. The classes <code>main(...)</code> function will be called when the program is run. There can only be one <code>@Main()</code> entry point defined within the program.</p>
+				<pre><code class="language-typescript">
+<span class="hljs-keyword">import</span> { Main } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">class</span> Program {
+    main(argv: <span class="hljs-built_in">string</span>[]) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello world'</span>)
+    }
+}
+
+<span class="hljs-comment">// JavaScript users can use __Main(Program) if</span>
+<span class="hljs-comment">// decorators are not available.</span></code></pre>
+				<p><a name="Thread"></a></p>
+				<a href="#thread" id="thread" style="color: inherit; text-decoration: none;">
+					<h2>Thread</h2>
+				</a>
+				<p>Denotes a class as threadable which allows it to instanced with <code>spawn()</code>. Any class may be denoted as a <code>@Thread()</code>. When spawned, the parent thread will be able to execute all the functions of the class instance (see <code>spawn()</code> section for details). The classes <code>constructor</code> will be called when the worker is created and the <code>dispose()</code> method will be called when the parent thread has chosen to <code>dispose()</code> of the worker.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Thread } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'worker started'</span>)
+    }
+    add(a: <span class="hljs-built_in">number</span>, b: <span class="hljs-built_in">number</span>) {
+        <span class="hljs-keyword">return</span> a + b
+    }
+    subtract(a: <span class="hljs-built_in">number</span>, b: <span class="hljs-built_in">number</span>) {
+        <span class="hljs-keyword">return</span> a - b
+    }
+    dispose() {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'worker disposed'</span>)
+    }
+}
+<span class="hljs-comment">// JavaScript users can use __Thread(Worker) if</span>
+<span class="hljs-comment">// decorators are not available.</span></code></pre>
+				<p><a name="Spawn"></a></p>
+				<a href="#spawn" id="spawn" style="color: inherit; text-decoration: none;">
+					<h2>Spawn</h2>
+				</a>
+				<p>Will spawn a class marked as <code>@Thread</code>. This function returns a proxy to the class which can be used to invoke the classes methods.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Worker, WorkerInterface } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Bar {
+    method() { 
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'inside bar thread'</span>)
+    }
+}
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Foo {
+    <span class="hljs-keyword">private</span> bar: WorkerInterface&lt;Bar&gt;
+    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">this</span>.bar = spawn(Bar)
+    }
+    <span class="hljs-keyword">async</span> method() {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'inside foo thread'</span>)
+        <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.bar.method()
+    }
+    <span class="hljs-keyword">async</span> dispose() {
+        <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.bar.dispose()
+    }
+}
+
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">class</span> Program {
+    <span class="hljs-keyword">async</span> main() {
+        <span class="hljs-keyword">const</span> foo = spawn(Foo)
+        <span class="hljs-keyword">await</span> foo.method()
+        <span class="hljs-keyword">await</span> foo.dispose()
+    }
+}
+<span class="hljs-comment">// &gt; inside foo thread</span>
+<span class="hljs-comment">// &gt; inside bar thread</span></code></pre>
+				<p>The return type of <code>spawn()</code> is a <code>WorkerInterface&lt;T&gt;</code>. It provides all the classes methods and one additional method named <code>dispose()</code> that will terminate the worker.</p>
+				<p>All functions on <code>WorkerInterface&lt;T&gt;</code> are async. </p>
+				<p><a name="Channel"></a></p>
+				<a href="#channel" id="channel" style="color: inherit; text-decoration: none;">
+					<h2>Channel</h2>
+				</a>
+				<p>ThreadBox implements channels abstract over <code>MessageChannel</code> and <code>MessagePort</code>. These channels implement a synchronization protocol that allows message senders to optionally <code>await</code> for messages to be received by a <code>Receiver</code>. ThreadBox channels are somewhat modelled on Rust&#39;s <code>std::sync::mpsc::{ channel, sync_channel }</code> API. The channel <code>Sender</code> and <code>Receiver</code> types can be used to stream sequences of values between threads.</p>
+				<a href="#exchange-sender" id="exchange-sender" style="color: inherit; text-decoration: none;">
+					<h4>Exchange Sender</h4>
+				</a>
+				<p>The following code creates a channel inside the <code>Main</code> thread and sends the <code>Sender</code> to the <code>Worker</code> thread. The worker will emit values to the <code>Sender</code> which are iterated within the <code>Main</code> thread.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Worker, channel, Sender, Receiver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
+    <span class="hljs-keyword">async</span> execute(sender: Sender&lt;<span class="hljs-built_in">number</span>&gt;) {
+        <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">2</span>)
+        <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">3</span>)
+        <span class="hljs-keyword">await</span> sender.end()
+    }
+}
+
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+    main() {
+        <span class="hljs-comment">// Spawn new Worker thread</span>
+        <span class="hljs-keyword">const</span> thread = spawn(Worker)
+        <span class="hljs-comment">// Create a channel.</span>
+        <span class="hljs-keyword">const</span> [sender, receiver] = channel&lt;<span class="hljs-built_in">number</span>&gt;()
+        <span class="hljs-comment">// Pass sender to thread. Do not await !</span>
+        thread.execute(sender)
+        <span class="hljs-comment">// Iterate values on Reciever.</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> value of receiver) {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'recv'</span>, value)
+        }
+        <span class="hljs-comment">// Dispose of thread.</span>
+        <span class="hljs-keyword">await</span> thread.dispose()
+    }
+}</code></pre>
+				<a href="#exchange-receiver" id="exchange-receiver" style="color: inherit; text-decoration: none;">
+					<h4>Exchange Receiver</h4>
+				</a>
+				<p>The following code creates a channel inside the <code>Worker</code> thread and returns a <code>Receiver</code> on the <code>numbers()</code> function. The <code>Main</code> thread then spawns the <code>Worker</code> thread and calls <code>numbers()</code> and awaits for the <code>Receiver</code> which it then iterates. The <code>into()</code> function is a utility function to allow one to move into an <code>async</code> context.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, into, Main, Worker, channel, Sender, Receiver } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
+    numbers(): Receiver&lt;<span class="hljs-built_in">number</span>&gt; {
+        <span class="hljs-keyword">const</span> [sender, receiver] = channel&lt;<span class="hljs-built_in">number</span>&gt;()
+        into(<span class="hljs-keyword">async</span>() =&gt; {
+            <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">2</span>)
+            <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">3</span>)
+            <span class="hljs-keyword">await</span> sender.end()
+        })
+        <span class="hljs-keyword">return</span> receiver
+    }
+}
+
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+
+    main() {
+        <span class="hljs-comment">// Spawn new Worker thread</span>
+        <span class="hljs-keyword">const</span> thread = spawn(Worker)
+        <span class="hljs-comment">// Call numbers() and await for reciever.</span>
+        <span class="hljs-keyword">const</span> receiver = <span class="hljs-keyword">await</span> thread.numbers()
+        <span class="hljs-comment">// Iterate values on Reciever.</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> value of receiver) {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'recv'</span>, value)
+        }
+        <span class="hljs-comment">// Dispose of thread.</span>
+        <span class="hljs-keyword">await</span> thread.dispose()
+    }
+}</code></pre>
+				<p><a name="Marshal"></a></p>
+				<a href="#marshal" id="marshal" style="color: inherit; text-decoration: none;">
+					<h2>Marshal</h2>
+				</a>
+				<p>Denotes a class as being marshalled. It enables instances of classes to be sent and reconstructed across thread boundaries. Marshalling behavior applies to data passed on function calls on worker threads as well as data sent over <a href="@Channels">channels</a>. This functionality allows logic to be passed between threads without manually needing to reconstruct the appropriate class instance at the receiver.</p>
+				<pre><code class="language-typescript">
+<span class="hljs-keyword">import</span> { Marshal } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-comment">// Instances of this class can be sent between threads.</span>
+<span class="hljs-meta">@Marshal</span>() <span class="hljs-keyword">class</span> Transferrable {
+    method() {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello world !!!'</span>)
+    }
+}
+
+<span class="hljs-comment">// JavaScript users can use __Transfer(Foo) if</span>
+<span class="hljs-comment">// decorators are not available.</span></code></pre>
+				<blockquote>
+					<p>ThreadBox communicates between threads using via <code>postMessage(...)</code>. By default, class instances sent via <code>postMessage(...)</code> will result in the classes prototype being lost in transit. The <code>@Marshal</code> decorator informs ThreadBox that it should attempt to marshal and reconstruct instances of the class when sent via <code>postMessage(...)</code>. This works for class instances with functions with simple data. However other data sent may be subject to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">Structured Clone Algorithm</a>.</p>
+				</blockquote>
+				<p><a name="SharedArrayBuffer"></a></p>
+				<a href="#sharedarraybuffer" id="sharedarraybuffer" style="color: inherit; text-decoration: none;">
+					<h2>SharedArrayBuffer</h2>
+				</a>
+				<p>The following demonstrates using <code>SharedArrayBuffer</code> to parallelize operations performed across a shared <code>Float32Array</code>. The shared buffer is sent to 4 workers with an index to store the result.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Worker } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
+
+<span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> ComputeForIndex {
+    execute(buffer: <span class="hljs-built_in">Float32Array</span>, index: <span class="hljs-built_in">number</span>) {
+        <span class="hljs-comment">// sleep 5 seconds</span>
+        <span class="hljs-keyword">const</span> started = <span class="hljs-built_in">Date</span>.now()
+        <span class="hljs-keyword">while</span>((<span class="hljs-built_in">Date</span>.now() - started) &lt; <span class="hljs-number">5000</span>) {}
+        buffer[index] = <span class="hljs-built_in">Math</span>.random()
+    }
+}
+
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
+    <span class="hljs-keyword">async</span> main() {
+        <span class="hljs-comment">// 4 x 32bit floats</span>
+        <span class="hljs-keyword">const</span> shared = <span class="hljs-keyword">new</span> SharedArrayBuffer(<span class="hljs-number">4</span> * <span class="hljs-built_in">Float32Array</span>.BYTES_PER_ELEMENT)
+        <span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float32Array</span>(shared)
+
+        <span class="hljs-comment">// spin up 4 workers</span>
+        <span class="hljs-keyword">const</span> c_0 = spawn(ComputeForIndex)
+        <span class="hljs-keyword">const</span> c_1 = spawn(ComputeForIndex)
+        <span class="hljs-keyword">const</span> c_2 = spawn(ComputeForIndex)
+        <span class="hljs-keyword">const</span> c_3 = spawn(ComputeForIndex)
+
+        <span class="hljs-comment">// process in parallel</span>
+        <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+            c_0.execute(buffer, <span class="hljs-number">0</span>),
+            c_1.execute(buffer, <span class="hljs-number">1</span>),
+            c_2.execute(buffer, <span class="hljs-number">2</span>),
+            c_3.execute(buffer, <span class="hljs-number">3</span>)
+        ])
+
+        <span class="hljs-comment">// clean up</span>
+        <span class="hljs-keyword">await</span> c_0.dispose()
+        <span class="hljs-keyword">await</span> c_1.dispose()
+        <span class="hljs-keyword">await</span> c_2.dispose()
+        <span class="hljs-keyword">await</span> c_3.dispose()
+
+        <span class="hljs-comment">// result</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'result'</span>, buffer)
+    }
+}</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_async_index_.html">&quot;async/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_async_into_.html">&quot;async/into&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_channel_.html">&quot;channel/channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_defer_.html">&quot;channel/defer&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_duplex_.html">&quot;channel/duplex&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_index_.html">&quot;channel/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_protocol_.html">&quot;channel/protocol&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_queue_.html">&quot;channel/queue&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_channel_select_.html">&quot;channel/select&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_marshal_encoder_.html">&quot;marshal/encoder&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_marshal_index_.html">&quot;marshal/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_marshal_registry_.html">&quot;marshal/registry&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_marshal_transfer_.html">&quot;marshal/transfer&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_reflect_index_.html">&quot;reflect/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_reflect_reflect_.html">&quot;reflect/reflect&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_thread_index_.html">&quot;thread/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_thread_local_.html">&quot;thread/local&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_thread_protocol_.html">&quot;thread/protocol&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_thread_registry_.html">&quot;thread/registry&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_thread_spawn_.html">&quot;thread/spawn&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

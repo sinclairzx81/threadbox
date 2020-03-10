@@ -26,56 +26,25 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-// #region Errors
+import { MarshalEncoder, MarshalTransferList } from '../marshal/index'
 
-export class MultipleMainConstructorError extends Error {
-    constructor() {
-        super('Multiple Main constructors found. Only one Main entry point is allowed.')
+export type Encoded = {
+    kind: 'default' | 'marshalled',
+    data: any
+}
+
+/** Encodes a message to be sent over a MessagePort. Returns the encoded message and transferList. */
+export function encode<T>(value: T): [Encoded, any[]] {
+    const kind = MarshalEncoder.isInstanceMarshalled(value) ? 'marshalled' : 'default'
+    const data = kind === 'marshalled' ? MarshalEncoder.encode(value) : value
+    const transferList = MarshalTransferList.search(value)
+    return [{ kind, data }, transferList]
+}
+
+/** Decodes a message received from the MessagePort. */
+export function decode<T>(encoded: Encoded): T {
+    switch (encoded.kind) {
+        case 'marshalled': return MarshalEncoder.decode(encoded.data)
+        case 'default':    return encoded.data
     }
 }
-
-// #endregion
-
-// #region Thread Key
-
-const nextKey = (() => { let index = 0; return () => (index++).toString() })()
-
-// #endregion
-
-// #region Registry
-
-export type ConstructorFunction = new (...args: any[]) => any
-
-const constructors = new Map<string, ConstructorFunction>()
-
-const reverse = new WeakMap<ConstructorFunction, string>()
-
-export function register_thread_constructor(constructor: ConstructorFunction) {
-    const key = nextKey()
-    constructors.set(key, constructor)
-    reverse.set(constructor, key)
-}
-
-export function register_main_constructor(constructor: ConstructorFunction) {
-    const key = 'main'
-    if (constructors.has(key)) {
-        throw new MultipleMainConstructorError()
-    }
-    constructors.set(key, constructor)
-    reverse.set(constructor, key)
-}
-
-
-export function lookup_thread_key(constructor: ConstructorFunction): string | undefined {
-    return reverse.get(constructor)
-}
-
-export function get_thread_constructor(key: string): ConstructorFunction | undefined {
-    return constructors.get(key)
-}
-
-export function get_main_constructor(): ConstructorFunction | undefined {
-    return constructors.get('main')
-}
-
-// #endregion
