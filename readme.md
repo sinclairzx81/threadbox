@@ -36,6 +36,8 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
             c_3.run(),
         ])
         await sender.send([a, b, c, d])
+        await sender.end()
+        
         await c_0.dispose()
         await c_1.dispose()
         await c_2.dispose()
