@@ -104,7 +104,7 @@
 }
 <span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> WorkerA {
     <span class="hljs-keyword">async</span> run(receiver: Receiver) {
-        <span class="hljs-keyword">const</span> [a, b, c, d] = <span class="hljs-keyword">await</span> receiver.receive()
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> [a, b, c, d] of receiver) { }
     }
 }
 <span class="hljs-comment">// start here ...</span>
