@@ -13,7 +13,7 @@
 
 ## Example
 
-The following code replicates the above worker topology. See [here](./doc/example.js) for non-decorator implementation.
+The following code expresses the above worker graph. See [here](./doc/example.js) for non-decorator implementation.
 
 ```typescript
 import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/threadbox'
@@ -70,7 +70,7 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 
 ThreadBox is a threading library for JavaScript that is built on top of the NodeJS `worker_threads` API. It is written to allow for compute intensive JavaScript and WASM processes to be trivially parallalized and distributed across many threads.
 
-ThreadBox works by using process recursion to spawn new worker threads. When spawning a thread, ThreadBox will start it using the current threads entry module (typically `app.js`). Internally it provides switching logic within the new thread to instance one of the denoted `@Thread` classes. Because each new thread is started from the same entry module as the host thread; `class`, `function` and `const` definitions defined in the host are available to each subsequent thread. This pattern allows for ergonomic same file threading seen in other languages and is generally more intuitive than spreading logic across multiple `.js` files.
+ThreadBox spawns new threads by recursively loading the application entry module (typically `app.js`). Internally it provides switching logic within the new thread to instance one of the specified `@Thread` classes. Because each new thread is started from the same entry module as the parent thread, `class`, `function` and `const` definitions defined in the host are available to each subsequent thread. This pattern allows for ergonomic same file threading seen in other languages and is generally more intuitive than spreading logic across multiple `.js` files.
 
 ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
