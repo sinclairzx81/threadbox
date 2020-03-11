@@ -7,15 +7,17 @@
 [![npm version](https://badge.fury.io/js/%40sinclair%2Fthreadbox.svg)](https://badge.fury.io/js/%40sinclair%2Fthreadbox)
 [![Build Status](https://travis-ci.org/sinclairzx81/threadbox.svg?branch=master)](https://travis-ci.org/sinclairzx81/threadbox)
 
-<img src='https://raw.githubusercontent.com/sinclairzx81/threadbox/master/doc/threadbox.png'></img>
+<img src='./doc/threadbox.png'></img>
 
 </div>
 
 ## Example
 
-The following code expresses the above worker graph. See [here](./doc/example.js) for non-decorator implementation.
+The following code expresses the above worker graph. See [here](./doc/example.js) for JavaScript implementation.
 
 ```typescript
+// app.ts
+
 import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/threadbox'
 
 @Thread() class WorkerC {
