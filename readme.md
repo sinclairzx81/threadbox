@@ -2,7 +2,7 @@
 
 <h1>ThreadBox</h1>
 
-<p>Recursive Multi-Threaded Worker Processes in NodeJS</p>
+<p>Recursive Worker Threads in NodeJS</p>
 
 [![npm version](https://badge.fury.io/js/%40sinclair%2Fthreadbox.svg)](https://badge.fury.io/js/%40sinclair%2Fthreadbox)
 [![Build Status](https://travis-ci.org/sinclairzx81/threadbox.svg?branch=master)](https://travis-ci.org/sinclairzx81/threadbox)
