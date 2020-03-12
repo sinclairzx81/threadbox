@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { Reflect }         from '../reflect/index'
+import { Reflect }         from './reflect'
 import { MarshalRegistry } from './registry'
 
 // #region Marshal Encoding Scheme

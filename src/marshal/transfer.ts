@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { Reflect } from '../reflect/index'
+import { Reflect } from './reflect'
 
 /** 
  * Searches an instance for any `transferList` candidates. 
@@ -47,19 +47,19 @@ export class MarshalTransferList {
         }
         // An Object may have some.
         if(Reflect.isObject(instance)) {
-            const list = []
+            const transferList = []
             for(const key of Object.keys(instance)) {
-                list.push(...this.search(instance[key]))
+                transferList.push(...this.search(instance[key]))
             }
-            return list
+            return transferList
         }
         // An Array may have some.
         if(Reflect.isArray(instance)) {
-            const list = []
+            const transferList = []
             for(const value of instance) {
-                list.push(...this.search(value))
+                transferList.push(...this.search(value))
             }
-            return list
+            return transferList
         }
         // None found.
         return []

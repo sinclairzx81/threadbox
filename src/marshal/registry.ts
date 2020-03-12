@@ -27,7 +27,7 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 
-import { Reflect } from '../reflect/index'
+import { Reflect } from './reflect'
 
 type Constructor = new (...args: any[]) => void
 

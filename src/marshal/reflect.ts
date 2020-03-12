@@ -71,5 +71,4 @@ export class Reflect {
         const constructor = value.constructor
         return constructor === MessagePort
     }
-    
 }
