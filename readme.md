@@ -249,7 +249,7 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
     main() {
         // Spawn new Worker thread
         const worker = spawn(Worker)
-        // call and wait for reciever
+        // call and wait for receiver
         const receiver = await worker.numbers()
         // enumerate receiver
         for await(const value of receiver) {
@@ -265,7 +265,7 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
 
 ## Marshal
 
-Denotes a class as being marshalled. This enables instances of classes to be sent and reconstructed across thread boundaries. If enabled, ThreadBox will automatically marshal instances of the class when pass as function arguments to a thread as well as over [channels](#Channel). 
+Denotes a class as being marshalled. This enables instances of classes to be sent and reconstructed across thread boundaries. If enabled, ThreadBox will automatically marshal instances of the class when passed as function arguments to a thread as well as over [channels](#Channel). 
 
 This functionality allows class instances to be passed into threads for remote invocation. There is a serialization cost to marshalling however, use when appropriate.
 
