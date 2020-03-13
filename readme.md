@@ -109,7 +109,6 @@ The `@Main()` decorator denotes a class as the programs entry point. The classes
 import { Main } from '@sinclair/threadbox'
 
 @Main() default class {
-    /** A JS main() function */
     main(argv: string[]) {
         console.log(argv)
     }
