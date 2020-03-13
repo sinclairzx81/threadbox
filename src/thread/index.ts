@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 
-ThreadBox - Recursive Multi-Threaded Worker Processes in NodeJS
+ThreadBox - Recursive Worker Threads in NodeJS
 
 The MIT License (MIT)
 
@@ -28,5 +28,5 @@ THE SOFTWARE.
 
 export { ThreadRegistry }      from './registry'
 export { ThreadLocal }         from './local'
-export { ThreadHandle, Spawn } from './spawn'
+export { ThreadHandle }        from './handle'
 

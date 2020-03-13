@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 
-ThreadBox - Recursive Multi-Threaded Worker Processes in NodeJS
+ThreadBox - Recursive Worker Threads in NodeJS
 
 The MIT License (MIT)
 
@@ -93,7 +93,7 @@ export type Marshalled = any
 const INTRINSIC_MESSAGE_PORT = -1000
 const INTRINSIC_MAP          = -1001
 
-type Constructor = new (...args: any[]) => void
+type Constructor = new (...args: any[]) => any
 
 /**
  * Provides Marshalling Services for ThreadBox. Allows constructors

@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 
-ThreadBox - Recursive Multi-Threaded Worker Processes in NodeJS
+ThreadBox - Recursive Worker Threads in NodeJS
 
 The MIT License (MIT)
 
@@ -26,22 +26,20 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-export { channel, select, Sender, Receiver, EOF }            from './channel/index'
-export { into }                                              from './async/index'
-export { Mutex, MutexLock }                                  from './mutex/index'
-import { ThreadLocal, ThreadRegistry, ThreadHandle, Spawn }  from './thread/index'
-import { MarshalEncoder }                                    from './marshal/index'
+export { channel, select, Sender, Receiver, EOF }     from './channel/index'
+export { into }                                       from './async/index'
+export { Mutex, MutexLock }                           from './mutex/index'
+import { ThreadLocal, ThreadRegistry, ThreadHandle }  from './thread/index'
+import { MarshalEncoder }                             from './marshal/index'
 
 // #region Marshal
-
-export type MarshalConstructor<T> = new (...args: any[]) => T
 
 /** 
  * Registers this class as marshalled. This will enable instances 
  * of this class to be marshalled and re-constructed when passing 
  * between threads boundaries.
  */
-export function __Marshal<T>(constructor: MarshalConstructor<T>) {
+export function __Marshal<T extends any[], R>(constructor: new (...args: T) => R) {
 
     MarshalEncoder.register(constructor)
 }
@@ -53,43 +51,18 @@ export function __Marshal<T>(constructor: MarshalConstructor<T>) {
  */
 export function Marshal() {
 
-    return (constructor: MarshalConstructor<any>) => __Marshal(constructor)
+    return <T extends any[], R>(constructor: new (...args: T) => R) => __Marshal(constructor)
 }
 
 // #endregion
 
 // #region Thread
 
-export type AnyFunction =  (...args: any[]) => any
-
-export type ThreadConstructor<T>   = new (...args: any[]) => T
-
-export type ThreadFunction<F extends AnyFunction> =
-    F extends () => infer U ? () => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0) => infer U ? (p0: T0) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1) => infer U ? (p0: T0, p1: T1) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2) => infer U ? (p0: T0, p1: T1, p2: T2) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2, p3: infer T3) => infer U ? (p0: T0, p1: T1, p2: T2, p3: T3) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2, p3: infer T3, p4: infer T4) => infer U ? (p0: T0, p1: T1, p2: T2, p3: T3, p4: T4) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2, p3: infer T3, p4: infer T4, p5: infer T5) => infer U ? (p0: T0, p1: T1, p2: T2, p3: T3, p4: T4, p5: T5) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2, p3: infer T3, p4: infer T4, p5: infer T5, p6: infer T6) => infer U ? (p0: T0, p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6) => Promise<ThreadResult<U>> :
-    F extends (p0: infer T0, p1: infer T1, p2: infer T2, p3: infer T3, p4: infer T4, p5: infer T5, p6: infer T6, p7: infer T7) => infer U ? (p0: T0, p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7) => Promise<ThreadResult<U>> :
-    F extends (...args: any[]) => infer U ? (...args: any[]) => Promise<ThreadResult<U>> :
-    F;
-
-export type ThreadResult<T> = T extends Promise<infer U> ? U : T
-
-export type ThreadInterface<T> = { 
-    [K in keyof T]: T[K] extends AnyFunction ? ThreadFunction<T[K]> : never 
-} & {
-    dispose(): Promise<void> | void
-}
-
 /**
  * Registers a constructor as threadable. This allows this constructor to be 
  * to be instanced within a remote threads via `spawn()`
  */
-export function __Thread<T>(constructor: ThreadConstructor<T>) {
+export function __Thread(constructor: new (...args: any[]) => any) {
 
     ThreadRegistry.registerWorkerConstructor(constructor)
 }
@@ -98,29 +71,25 @@ export function __Thread<T>(constructor: ThreadConstructor<T>) {
  * [decorator] Registers a constructor as threadable. This allows this constructor to be 
  * to be instanced within a remote threads via `spawn()`. Alias for `__Thread(constructor)`.
  */
-export function Thread<T = any>() {
+export function Thread() {
 
-    return (constructor: ThreadConstructor<any>) => __Thread(constructor)
+    return (constructor: new (...args: any[]) => any) => __Thread(constructor)
 }
 
 // #endregion
 
 // #region Main
 
-
-export type MainConstructor = new (...args: any[]) => MainInterface
-
 export type MainInterface = {
 
-    main(args: string[]): Promise<number | void> | number | void
+    main(args: string[]): Promise<void> | void
 }
-
 
 /**
  * Registers a constructor as an application entry point. This constructor
  * will be called when the program starts.
  */
-export function __Main(constructor: MainConstructor) {
+export function __Main(constructor: new (...args: any[]) => MainInterface) {
 
     ThreadRegistry.registerMainConstructor(constructor)
 }
@@ -131,24 +100,29 @@ export function __Main(constructor: MainConstructor) {
  */
 export function Main() {
 
-    return (constructor: MainConstructor) => __Main(constructor)
+    return (constructor: new (...args: any[]) => MainInterface) => __Main(constructor)
 }
 
 // #endregion
 
 // #region Spawn
 
+export type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+
+export type ThreadInterfaceFunction<T> = T extends (...args: infer U) => infer R ? (...args: U) => R extends Promise<infer V> ? Promise<V> : Promise<R> : never
+
+export type ThreadInterface<T> = { [K in FunctionKeys<T>]: ThreadInterfaceFunction<T[K]> } & { dispose: () => Promise<void> }
+
 /**
- * Spawns the a new thread with the given constructor. The additional parameters given will be
+ * Spawns a new thread with the given constructor. The additional parameters given will be
  * injected into the constructor when instanced in the remote thread. The constructor given must
- * be registered threadable or a `ConstructorNotThreadableError` error will be thrown.
+ * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
  */
-export function spawn<T>(constructor: ThreadConstructor<T>, ...params: any[]): ThreadInterface<T> {
-
-    return Spawn.spawn(constructor, ...params) as ThreadHandle & ThreadInterface<T>
+export function spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R> {
+    
+    return ThreadHandle.create(constructor, ...args) as ThreadHandle & ThreadInterface<R>
 }
-
 
 // #endregion
 
-ThreadLocal.start() // Go!
+ThreadLocal.start()

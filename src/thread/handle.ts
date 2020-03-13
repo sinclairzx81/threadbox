@@ -65,12 +65,12 @@ export class ThreadEntry {
 
 // #endregion
 
-type Resolve<T> = (value: T)      => void
-type Reject     = (error: string) => void
-type Deferred   = [Resolve<any>, Reject]
+type Resolve<T> = (value: T) => void
+type Reject = (error: string) => void
+type Deferred = [Resolve<any>, Reject]
 
 type Constructor = new (...args: any[]) => any
-type Ordinal     = number
+type Ordinal = number
 
 /**
  * A handle to a spawned thread. Encapulates protocol message
@@ -98,8 +98,8 @@ export class ThreadHandle {
     /** Executes a function on the thread with the given 'functionKey' and parameters. */
     public execute(functionKey: string, params: any[]): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            const ordinal = this.setAwaiter([ resolve, reject ])
-            const [message, transferList] = ThreadProtocol.encode({ kind: 'execute', ordinal, functionKey, params })    
+            const ordinal = this.setAwaiter([resolve, reject])
+            const [message, transferList] = ThreadProtocol.encode({ kind: 'execute', ordinal, functionKey, params })
             this.worker.postMessage(message, transferList)
         })
     }
@@ -107,7 +107,7 @@ export class ThreadHandle {
     /** Diposes and terminates this thread. Returns a Promise that resolves once the thread has terminated. */
     public dispose(): Promise<void> {
         return new Promise<any>((resolve, reject) => {
-            const ordinal = this.setAwaiter([ resolve, reject ])
+            const ordinal = this.setAwaiter([resolve, reject])
             const [message, transferList] = ThreadProtocol.encode({ kind: 'dispose', ordinal })
             this.worker.postMessage(message, transferList)
         })
@@ -159,14 +159,12 @@ export class ThreadHandle {
         return awaiter
     }
 
-
-}
-
-/**
- * Spawns new thread.
- */
-export class Spawn {
-    public static spawn<T>(constructor: Constructor, ...params: any[]) {
+    /** 
+     * Creates a ThreadHandle with the given constructor and arguments. This
+     * function will internally launch the worker and return a proxy handle
+     * to the caller.
+     */
+    public static create(constructor: Constructor, ...params: any[]): ThreadHandle {
         return new Proxy(new ThreadHandle(constructor, params), {
             get: (target: ThreadHandle, functionKey: string) => (...params: any[]) => {
                 return (functionKey !== 'dispose')
@@ -176,4 +174,3 @@ export class Spawn {
         })
     }
 }
-
