@@ -1,6 +1,6 @@
 // JavaScript version of the ThreadBox readme example.
 
-import { spawn, __Main, __Thread, channel } from '@sinclair/threadbox'
+const { spawn, __Main, __Thread, channel } = require('@sinclair/threadbox')
 
 class WorkerC {
     run() {
