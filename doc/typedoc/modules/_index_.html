@@ -86,14 +86,10 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_index_.html#anyfunction" class="tsd-kind-icon">Any<wbr>Function</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_index_.html#mainconstructor" class="tsd-kind-icon">Main<wbr>Constructor</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#functionkeys" class="tsd-kind-icon">Function<wbr>Keys</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_index_.html#maininterface" class="tsd-kind-icon">Main<wbr>Interface</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#marshalconstructor" class="tsd-kind-icon">Marshal<wbr>Constructor</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#threadconstructor" class="tsd-kind-icon">Thread<wbr>Constructor</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#threadfunction" class="tsd-kind-icon">Thread<wbr>Function</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#threadinterface" class="tsd-kind-icon">Thread<wbr>Interface</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#threadresult" class="tsd-kind-icon">Thread<wbr>Result</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#threadinterfacefunction" class="tsd-kind-icon">Thread<wbr>Interface<wbr>Function</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -101,10 +97,10 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_index_.html#main-1" class="tsd-kind-icon">Main</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_index_.html#marshal" class="tsd-kind-icon">Marshal</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#thread" class="tsd-kind-icon">Thread</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_index_.html#thread" class="tsd-kind-icon">Thread</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_index_.html#__main" class="tsd-kind-icon">__<wbr>Main</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#__marshal" class="tsd-kind-icon">__<wbr>Marshal</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#__thread" class="tsd-kind-icon">__<wbr>Thread</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_index_.html#__thread" class="tsd-kind-icon">__<wbr>Thread</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_index_.html#spawn" class="tsd-kind-icon">spawn</a></li>
 							</ul>
 						</section>
@@ -156,51 +152,21 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="anyfunction" class="tsd-anchor"></a>
-					<h3>Any<wbr>Function</h3>
-					<div class="tsd-signature tsd-kind-icon">Any<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+					<a name="functionkeys" class="tsd-anchor"></a>
+					<h3>Function<wbr>Keys</h3>
+					<div class="tsd-signature tsd-kind-icon">Function<wbr>Keys&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L63">src/index.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L110">src/index.ts:110</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="mainconstructor" class="tsd-anchor"></a>
-					<h3>Main<wbr>Constructor</h3>
-					<div class="tsd-signature tsd-kind-icon">Main<wbr>Constructor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L111">src/index.ts:111</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="maininterface" class="tsd-anchor"></a>
@@ -208,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">Main<wbr>Interface<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>main<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L113">src/index.ts:113</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L83">src/index.ts:83</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -217,13 +183,13 @@
 							<li class="tsd-parameter">
 								<h5>main<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal">
-									<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L115">src/index.ts:115</a></li>
+												<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L85">src/index.ts:85</a></li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -232,7 +198,7 @@
 												<h5>args: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -240,70 +206,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="marshalconstructor" class="tsd-anchor"></a>
-					<h3>Marshal<wbr>Constructor</h3>
-					<div class="tsd-signature tsd-kind-icon">Marshal<wbr>Constructor&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L37">src/index.ts:37</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>T</h4>
-						</li>
-					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="threadconstructor" class="tsd-anchor"></a>
-					<h3>Thread<wbr>Constructor</h3>
-					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Constructor&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L65">src/index.ts:65</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>T</h4>
-						</li>
-					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="threadfunction" class="tsd-anchor"></a>
-					<h3>Thread<wbr>Function</h3>
-					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Function&lt;F&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T3<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T3</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T3, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T4<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T3</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T4</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T3, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T4, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T5<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T3</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T4</span>, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T5</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T3, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T4, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T5, p6<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T6<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T3</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T4</span>, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T5</span>, p6<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T6</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T0, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T1, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T2, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T3, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T4, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T5, p6<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T6, p7<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> T7<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span>p0<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T0</span>, p1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, p2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span>, p3<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T3</span>, p4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T4</span>, p5<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T5</span>, p6<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T6</span>, p7<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T7</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_index_.html#threadresult" class="tsd-signature-type">ThreadResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">F</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L67">src/index.ts:67</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>F<span class="tsd-signature-symbol">: </span><a href="_index_.html#anyfunction" class="tsd-signature-type">AnyFunction</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 					<a name="threadinterface" class="tsd-anchor"></a>
 					<h3>Thread<wbr>Interface</h3>
-					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Interface&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>dispose<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Interface&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>dispose<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L82">src/index.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L114">src/index.ts:114</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -314,12 +222,12 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-					<a name="threadresult" class="tsd-anchor"></a>
-					<h3>Thread<wbr>Result</h3>
-					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Result&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">T</span></div>
+					<a name="threadinterfacefunction" class="tsd-anchor"></a>
+					<h3>Thread<wbr>Interface<wbr>Function</h3>
+					<div class="tsd-signature tsd-kind-icon">Thread<wbr>Interface<wbr>Function&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> U<span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">infer </span> R<span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">infer </span> V<span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L80">src/index.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L112">src/index.ts:112</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -342,7 +250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L132">src/index.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L101">src/index.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -365,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L54">src/index.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L52">src/index.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,17 +287,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
 					<a name="thread" class="tsd-anchor"></a>
 					<h3>Thread</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">Thread&lt;T&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Thread<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L101">src/index.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L74">src/index.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -398,12 +306,6 @@
 									to be instanced within a remote threads via <code>spawn()</code>. Alias for <code>__Thread(constructor)</code>.</p>
 								</div>
 							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
 						</li>
 					</ul>
@@ -412,13 +314,13 @@
 					<a name="__main" class="tsd-anchor"></a>
 					<h3>__<wbr>Main</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">__<wbr>Main<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="_index_.html#mainconstructor" class="tsd-signature-type">MainConstructor</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">__<wbr>Main<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L123">src/index.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L92">src/index.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -430,7 +332,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>constructor: <a href="_index_.html#mainconstructor" class="tsd-signature-type">MainConstructor</a></h5>
+									<h5>constructor: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -441,13 +345,13 @@
 					<a name="__marshal" class="tsd-anchor"></a>
 					<h3>__<wbr>Marshal</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">__<wbr>Marshal&lt;T&gt;<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="_index_.html#marshalconstructor" class="tsd-signature-type">MarshalConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">__<wbr>Marshal&lt;T, R&gt;<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L44">src/index.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L42">src/index.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -460,30 +364,35 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>T</h4>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+								<li>
+									<h4>R</h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>constructor: <a href="_index_.html#marshalconstructor" class="tsd-signature-type">MarshalConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>constructor: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
 					<a name="__thread" class="tsd-anchor"></a>
 					<h3>__<wbr>Thread</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">__<wbr>Thread&lt;T&gt;<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="_index_.html#threadconstructor" class="tsd-signature-type">ThreadConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">__<wbr>Thread<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L92">src/index.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L65">src/index.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -492,16 +401,12 @@
 									to be instanced within a remote threads via <code>spawn()</code></p>
 								</div>
 							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>T</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>constructor: <a href="_index_.html#threadconstructor" class="tsd-signature-type">ThreadConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>constructor: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -512,38 +417,43 @@
 					<a name="spawn" class="tsd-anchor"></a>
 					<h3>spawn</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">spawn&lt;T&gt;<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="_index_.html#threadconstructor" class="tsd-signature-type">ThreadConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, <span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_index_.html#threadinterface" class="tsd-signature-type">ThreadInterface</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">spawn&lt;T, R&gt;<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_index_.html#threadinterface" class="tsd-signature-type">ThreadInterface</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/index.ts#L146">src/index.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/index.ts#L121">src/index.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Spawns the a new thread with the given constructor. The additional parameters given will be
+									<p>Spawns a new thread with the given constructor. The additional parameters given will be
 										injected into the constructor when instanced in the remote thread. The constructor given must
-									be registered threadable or a <code>ConstructorNotThreadableError</code> error will be thrown.</p>
+									be registered as threadable or a <code>ConstructorNotThreadableError</code> error will be thrown.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>T</h4>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+								<li>
+									<h4>R</h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>constructor: <a href="_index_.html#threadconstructor" class="tsd-signature-type">ThreadConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>constructor: <span class="tsd-signature-symbol">{}</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">T</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_index_.html#threadinterface" class="tsd-signature-type">ThreadInterface</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_index_.html#threadinterface" class="tsd-signature-type">ThreadInterface</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -592,6 +502,9 @@
 						<a href="_marshal_index_.html">&quot;marshal/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_marshal_reflect_.html">&quot;marshal/reflect&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_marshal_registry_.html">&quot;marshal/registry&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -604,10 +517,7 @@
 						<a href="_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_reflect_index_.html">&quot;reflect/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_reflect_reflect_.html">&quot;reflect/reflect&quot;</a>
+						<a href="_thread_handle_.html">&quot;thread/handle&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_thread_index_.html">&quot;thread/index&quot;</a>
@@ -620,9 +530,6 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_thread_registry_.html">&quot;thread/registry&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_thread_spawn_.html">&quot;thread/spawn&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -652,29 +559,17 @@
 					<li class=" tsd-kind-reference tsd-parent-kind-external-module">
 						<a href="_index_.html#select" class="tsd-kind-icon">select</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="_index_.html#anyfunction" class="tsd-kind-icon">Any<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="_index_.html#mainconstructor" class="tsd-kind-icon">Main<wbr>Constructor</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
+						<a href="_index_.html#functionkeys" class="tsd-kind-icon">Function<wbr>Keys</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_index_.html#maininterface" class="tsd-kind-icon">Main<wbr>Interface</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_index_.html#marshalconstructor" class="tsd-kind-icon">Marshal<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_index_.html#threadconstructor" class="tsd-kind-icon">Thread<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_index_.html#threadfunction" class="tsd-kind-icon">Thread<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_index_.html#threadinterface" class="tsd-kind-icon">Thread<wbr>Interface</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_index_.html#threadresult" class="tsd-kind-icon">Thread<wbr>Result</a>
+						<a href="_index_.html#threadinterfacefunction" class="tsd-kind-icon">Thread<wbr>Interface<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_index_.html#main-1" class="tsd-kind-icon">Main</a>
@@ -682,7 +577,7 @@
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_index_.html#marshal" class="tsd-kind-icon">Marshal</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_index_.html#thread" class="tsd-kind-icon">Thread</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
@@ -691,7 +586,7 @@
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_index_.html#__marshal" class="tsd-kind-icon">__<wbr>Marshal</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_index_.html#__thread" class="tsd-kind-icon">__<wbr>Thread</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">

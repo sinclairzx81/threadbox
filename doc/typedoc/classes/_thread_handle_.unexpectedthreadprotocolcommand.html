@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ConstructorNotThreadableError | @sinclair/threadbox</title>
+	<title>UnexpectedThreadProtocolCommand | @sinclair/threadbox</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_thread_spawn_.html">&quot;thread/spawn&quot;</a>
+					<a href="../modules/_thread_handle_.html">&quot;thread/handle&quot;</a>
 				</li>
 				<li>
-					<a href="_thread_spawn_.constructornotthreadableerror.html">ConstructorNotThreadableError</a>
+					<a href="_thread_handle_.unexpectedthreadprotocolcommand.html">UnexpectedThreadProtocolCommand</a>
 				</li>
 			</ul>
-			<h1>Class ConstructorNotThreadableError</h1>
+			<h1>Class UnexpectedThreadProtocolCommand</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Raised if a constructor is not threadable.</p>
+						<p>Raised on protocol violation.</p>
 					</div>
 				</div>
 			</section>
@@ -83,7 +83,7 @@
 						<a href="_marshal_registry_.duplicateconstructorregistration.html#error" class="tsd-signature-type">Error</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">ConstructorNotThreadableError</span>
+								<span class="target">UnexpectedThreadProtocolCommand</span>
 							</li>
 						</ul>
 					</li>
@@ -96,16 +96,16 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_thread_spawn_.constructornotthreadableerror.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_thread_handle_.unexpectedthreadprotocolcommand.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_spawn_.constructornotthreadableerror.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_spawn_.constructornotthreadableerror.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_thread_spawn_.constructornotthreadableerror.html#stack" class="tsd-kind-icon">stack</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_thread_spawn_.constructornotthreadableerror.html#error" class="tsd-kind-icon">Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_handle_.unexpectedthreadprotocolcommand.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_handle_.unexpectedthreadprotocolcommand.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_thread_handle_.unexpectedthreadprotocolcommand.html#stack" class="tsd-kind-icon">stack</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_thread_handle_.unexpectedthreadprotocolcommand.html#error" class="tsd-kind-icon">Error</a></li>
 							</ul>
 						</section>
 					</div>
@@ -117,24 +117,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Constructor<wbr>Not<wbr>Threadable<wbr>Error<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_spawn_.constructornotthreadableerror.html" class="tsd-signature-type">ConstructorNotThreadableError</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Unexpected<wbr>Thread<wbr>Protocol<wbr>Command<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_protocol_.html#command" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.unexpectedthreadprotocolcommand.html" class="tsd-signature-type">UnexpectedThreadProtocolCommand</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/8c3ba9e/src/thread/spawn.ts#L37">src/thread/spawn.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/70693ff/src/thread/handle.ts#L44">src/thread/handle.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>constructor: <span class="tsd-signature-symbol">{}</span></h5>
-									<ul class="tsd-parameters">
-									</ul>
+									<h5>command: <a href="../modules/_thread_protocol_.html#command" class="tsd-signature-type">Command</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_thread_spawn_.constructornotthreadableerror.html" class="tsd-signature-type">ConstructorNotThreadableError</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_thread_handle_.unexpectedthreadprotocolcommand.html" class="tsd-signature-type">UnexpectedThreadProtocolCommand</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -230,6 +228,9 @@
 						<a href="../modules/_marshal_index_.html">&quot;marshal/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_marshal_reflect_.html">&quot;marshal/reflect&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_marshal_registry_.html">&quot;marshal/registry&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -241,11 +242,8 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_reflect_index_.html">&quot;reflect/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_reflect_reflect_.html">&quot;reflect/reflect&quot;</a>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_thread_handle_.html">&quot;thread/handle&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_thread_index_.html">&quot;thread/index&quot;</a>
@@ -259,63 +257,57 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_thread_registry_.html">&quot;thread/registry&quot;</a>
 					</li>
-					<li class="current tsd-kind-external-module">
-						<a href="../modules/_thread_spawn_.html">&quot;thread/spawn&quot;</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.constructornotthreadableerror.html" class="tsd-kind-icon">Constructor<wbr>Not<wbr>Threadable<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.threadentry.html" class="tsd-kind-icon">Thread<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.threadhandle.html" class="tsd-kind-icon">Thread<wbr>Handle</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_spawn_.constructornotthreadableerror.html" class="tsd-kind-icon">Constructor<wbr>Not<wbr>Threadable<wbr>Error</a>
+						<a href="_thread_handle_.unexpectedthreadprotocolcommand.html" class="tsd-kind-icon">Unexpected<wbr>Thread<wbr>Protocol<wbr>Command</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_thread_spawn_.constructornotthreadableerror.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_thread_handle_.unexpectedthreadprotocolcommand.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_thread_spawn_.constructornotthreadableerror.html#message" class="tsd-kind-icon">message</a>
+								<a href="_thread_handle_.unexpectedthreadprotocolcommand.html#message" class="tsd-kind-icon">message</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_thread_spawn_.constructornotthreadableerror.html#name" class="tsd-kind-icon">name</a>
+								<a href="_thread_handle_.unexpectedthreadprotocolcommand.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_thread_spawn_.constructornotthreadableerror.html#stack" class="tsd-kind-icon">stack</a>
+								<a href="_thread_handle_.unexpectedthreadprotocolcommand.html#stack" class="tsd-kind-icon">stack</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_thread_spawn_.constructornotthreadableerror.html#error" class="tsd-kind-icon">Error</a>
+								<a href="_thread_handle_.unexpectedthreadprotocolcommand.html#error" class="tsd-kind-icon">Error</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_spawn_.spawn.html" class="tsd-kind-icon">Spawn</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_spawn_.threadentry.html" class="tsd-kind-icon">Thread<wbr>Entry</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_spawn_.threadhandle.html" class="tsd-kind-icon">Thread<wbr>Handle</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_spawn_.unexpectedthreadprotocolcommand.html" class="tsd-kind-icon">Unexpected<wbr>Thread<wbr>Protocol<wbr>Command</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#constructor" class="tsd-kind-icon">Constructor</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_thread_spawn_.html#constructor" class="tsd-kind-icon">Constructor</a>
+						<a href="../modules/_thread_handle_.html#deferred" class="tsd-kind-icon">Deferred</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_thread_spawn_.html#deferred" class="tsd-kind-icon">Deferred</a>
+						<a href="../modules/_thread_handle_.html#ordinal" class="tsd-kind-icon">Ordinal</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_thread_spawn_.html#ordinal" class="tsd-kind-icon">Ordinal</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_thread_spawn_.html#reject" class="tsd-kind-icon">Reject</a>
+						<a href="../modules/_thread_handle_.html#reject" class="tsd-kind-icon">Reject</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="../modules/_thread_spawn_.html#resolve" class="tsd-kind-icon">Resolve</a>
+						<a href="../modules/_thread_handle_.html#resolve" class="tsd-kind-icon">Resolve</a>
 					</li>
 				</ul>
 			</nav>
