@@ -70,9 +70,9 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 
 ## Overview
 
-ThreadBox is a worker thread library for JavaScript that is built upon the NodeJS `worker_threads` API. It is written to allow for compute intensive JavaScript and WASM processes to be trivially parallalized and distributed across many threads.
+ThreadBox is a worker thread library for JavaScript that is built upon the NodeJS `worker_threads` API. It is written to allow for compute intensive JavaScript and WASM processes to be trivially parallalized and distributed across many threads. ThreadBox allows any JavaScript class to be run as a worker thread.
 
-ThreadBox is built around process recursion. It works by spawning workers from the applications entry module (typically `app.js`). Internally it provides switching logic within each worker thread to instance one of the requested `@Thread()` classes. Because each new worker is spawned from the same module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread, enabling much of the functionality expressed by this library.
+This library is built around an idea of process recursion. It works by spawning workers from the applications entry module (typically `app.js`). Internally it provides switching logic within each worker thread to instance one of the requested `@Thread()` classes. Because each new worker is spawned from the same module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This recursive approach allows for features such as same file threading and automatic class instance marshling across thread boundaries.
 
 ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
