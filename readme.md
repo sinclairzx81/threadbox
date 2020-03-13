@@ -70,9 +70,9 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 
 ## Overview
 
-ThreadBox is a worker thread library for JavaScript that is built upon the NodeJS `worker_threads` API. It is written to allow for compute intensive JavaScript and WASM processes to be trivially parallalized and distributed across many threads. ThreadBox allows any JavaScript class to be run as a worker thread.
+ThreadBox is a threading library for JavaScript that is built upon the NodeJS `worker_threads` API. It is written to allow for compute heavy JavaScript and WASM to be trivially distributed to run across many threads by moving compute heavy logic into plain JS classes. ThreadBox allows any class to be executed in a remote thread and provides to the host thread an asynchronous interface in which to call methods on the remote class.
 
-This library is built around a concept of process recursion. It works by spawning workers from the applications entry module (typically `app.js`) and it provides switching logic within each spawned worker to instance one of the requested `@Thread()` classes. Because each new worker is spawned from the same module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This recursive approach allows for features such as same file threading and automatic class instance marshling across thread boundaries.
+ThreadBox uses recursive pattern to spawn worker threads. When spawning a thread, ThreadBox will recursively call into applications entry module (typically `app.js`) and instance the requested `@Thread()` class. Because each new worker is spawned from the same entry module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This recursive approach allows for ergonomic same file threading without needing to split related worker logic into seperate `.js` files while still retaining the ability to naturally split classes and functions across multiple modules.
 
 ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
