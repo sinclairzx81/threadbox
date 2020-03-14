@@ -70,7 +70,7 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 
 ## Overview
 
-ThreadBox is a threading library for JavaScript that is built upon NodeJS `worker_threads`. It is written to allow for compute intensive JavaScript and WASM to be trivially distributed across many threads by wrapping heavy calls within a plain JavaScript class. ThreadBox can take any JavaScript class and move it to a worker thread. It provides to the caller an asynchronous interface in which to invoke methods of the class across thread boundaries, and provides clean worker thread disposal.
+ThreadBox is a threading library for JavaScript that is built on top of NodeJS `worker_threads`. It is written to allow for compute heavy JavaScript and WASM to be trivially executed in remote workers. ThreadBox allows any JavaScript class to be run within a worker thread where the class itself is treated as an interface to the worker. ThreadBox manages communication between host and worker thread as well as providing clean worker disposal.
 
 ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recursively call into the applications entry module (typically `app.js`) and instance a requested `@Thread()` class. Because each new worker is spawned from the same entry module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This recursive approach allows for ergonomic same file threading without needing to split related worker logic into seperate `.js` files while still retaining the ability to naturally split classes and functions across multiple modules.
 
@@ -91,6 +91,7 @@ $ npm install @sinclair/threadbox --save
 ## Contents
 - [Install](#Install)
 - [Overview](#Overview)
+- [Setup](#Setup)
 - [Main](#Main)
 - [Thread](#Thread)
 - [Spawn](#Spawn)
@@ -98,6 +99,22 @@ $ npm install @sinclair/threadbox --save
 - [Marshal](#Marshal)
 - [Mutex](#Mutex)
 - [SharedArrayBuffer](#SharedArrayBuffer)
+
+<a name="Setup"></a>
+
+## Setup
+
+ThreadBox makes use of both TypeScript decorators and `[Symbol.asyncIterator]`. TypeScript users should configure `tsconfig.json` for the following.
+
+```json
+{
+   "compilerOptions": {
+      "experimentalDecorators": true,
+      "downlevelIteration": true,
+      ...
+   }
+}
+```
 
 <a name="Main"></a>
 
