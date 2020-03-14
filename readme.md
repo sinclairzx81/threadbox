@@ -106,7 +106,7 @@ $ npm install @sinclair/threadbox --save
 
 ThreadBox makes use of both TypeScript decorators and `[Symbol.asyncIterator]`. TypeScript users should configure `tsconfig.json` for the following.
 
-```json
+```javascript
 {
    "compilerOptions": {
       "experimentalDecorators": true,
