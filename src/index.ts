@@ -37,7 +37,7 @@ export { Mutex, MutexLock }                                                 from
 
 /** 
  * Registers this class as marshalled. This will enable instances 
- * of this class to be marshalled and re-constructed when passing 
+ * of this class to be sent and re-constructed when passed 
  * between threads boundaries.
  */
 export function __Marshal<T extends any[], R>(constructor: new (...args: T) => R) {
@@ -47,7 +47,7 @@ export function __Marshal<T extends any[], R>(constructor: new (...args: T) => R
 
 /** 
  * [decorator] Registers this class as marshalled. This will enable instances 
- * of this class to be marshalled and re-constructed when passing 
+ * of this class to be sent and re-constructed when passed 
  * between threads boundaries. Alias for `__Marshal(constructor)`
  */
 export function Marshal() {
@@ -61,7 +61,7 @@ export function Marshal() {
 
 /**
  * Registers a constructor as threadable. This allows this constructor to be 
- * to be instanced within a remote threads via `spawn()`
+ * to be instanced within remote worker threads via `spawn()`
  */
 export function __Thread(constructor: new (...args: any[]) => any) {
 
@@ -70,7 +70,7 @@ export function __Thread(constructor: new (...args: any[]) => any) {
 
 /**
  * [decorator] Registers a constructor as threadable. This allows this constructor to be 
- * to be instanced within a remote threads via `spawn()`. Alias for `__Thread(constructor)`.
+ * to be instanced within remote threads via `spawn()`. Alias for `__Thread(constructor)`.
  */
 export function Thread() {
 
@@ -87,8 +87,8 @@ export type MainInterface = {
 }
 
 /**
- * Registers a constructor as an application entry point. This constructor
- * will be called when the program starts.
+ * Registers a constructor as the application main entry point. This constructor
+ * will be called automatically when the program run.
  */
 export function __Main(constructor: new (...args: any[]) => MainInterface) {
 
@@ -96,8 +96,8 @@ export function __Main(constructor: new (...args: any[]) => MainInterface) {
 }
 
 /**
- * [decorator] Registers a constructor as an application entry point. This constructor
- * will be called when the program starts. Alias for `__Main(constructor)`.
+ * [decorator] Registers a constructor as the application main entry point. This constructor
+ * will be called automatically when the program run. Alias for `__Main(constructor)`.
  */
 export function Main() {
 
@@ -116,15 +116,15 @@ export type ThreadInterface<T> = { [K in FunctionKeys<T>]: ThreadInterfaceFuncti
 
 
 /**
- * Spawns a new thread with the given resourceLimits and constructor. The additional parameters given 
- * will be injected into the constructor when instanced in the remote thread. The constructor given must
+ * Spawns a new worker thread with the given resourceLimits and constructor. The additional arguments given 
+ * will be injected into the constructor when instanced in the remote thread. The constructor argument must
  * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
  */
 export function spawn<T extends any[], R>(resourceLimits: ThreadResourceLimits, constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
 
 /**
- * Spawns a new thread with the given constructor. The additional parameters given will be
- * injected into the constructor when instanced in the remote thread. The constructor given must
+ * Spawns a new worker thread with the given constructor. The additional arguments given will be
+ * injected into the constructor when instanced in the remote thread. The constructor argument must
  * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
  */
 export function spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
