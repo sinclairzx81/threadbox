@@ -1,6 +1,6 @@
 {
   "name": "@sinclair/threadbox",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "description": "Recursive Worker Threads in NodeJS",
   "keywords": [
     "worker-threads",
