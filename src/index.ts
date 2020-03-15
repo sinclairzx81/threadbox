@@ -61,7 +61,7 @@ export function Marshal() {
 
 /**
  * Registers a constructor as threadable. This allows this constructor to be 
- * to be instanced within remote worker threads via `spawn()`
+ * instanced within remote worker threads via `spawn()`
  */
 export function __Thread(constructor: new (...args: any[]) => any) {
 
@@ -70,7 +70,7 @@ export function __Thread(constructor: new (...args: any[]) => any) {
 
 /**
  * [decorator] Registers a constructor as threadable. This allows this constructor to be 
- * to be instanced within remote threads via `spawn()`. Alias for `__Thread(constructor)`.
+ * instanced within remote threads via `spawn()`. Alias for `__Thread(constructor)`.
  */
 export function Thread() {
 
