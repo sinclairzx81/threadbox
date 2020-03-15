@@ -17,8 +17,13 @@ export async function watch() {
 
 /** Builds the project documentation. */
 export async function build_doc() {
-    await folder('doc/typedoc').delete().exec()
-    await shell('typedoc --out doc/typedoc --project src/tsconfig.json').exec()
+    try {
+        await folder('doc/typedoc').delete().exec()
+        await shell('typedoc --out doc/typedoc --project src/tsconfig.json').exec()
+    } catch(error) {
+        console.log(`Unable to build documentation. Try '$ npm install typedoc -g' first.`)
+        console.log(error.mesage)
+    }
 }
 
 /** Builds redistributable in the 'dist' directory. */
