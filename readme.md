@@ -121,7 +121,7 @@ ThreadBox primarily uses decorators to denote `Main`, `Thread` and `Marshal` cla
 
 ## Main
 
-The `Main` decorator denotes a class as the programs entry point. It's `main(...)` function will be automatically called by ThreadBox when the program is run.
+The `Main` decorator registers a class as the programs entry point. The classes `main(...)` function will be automatically called by ThreadBox when the program is run.
 
 ```typescript
 import { Main } from '@sinclair/threadbox'
@@ -140,7 +140,7 @@ import { Main } from '@sinclair/threadbox'
 
 ## Thread
 
-The `Thread` decorator marks a class as threadable and allows it to be spawned as a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional `dispose()` function that will be invoked when the host thread terminates the worker.
+The `Thread` decorator registers a class as threadable which allows it to be spawned in a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional `dispose()` function that will be invoked when the host thread terminates the worker.
 
 ```typescript
 import { Thread } from '@sinclair/threadbox'
@@ -170,7 +170,7 @@ All JavaScript classes can be decorated with `@Thread()`.
 
 ## Spawn
 
-The `spawn(...)` function will spawn `Thread` class and return a handle to caller allowing it to call methods on the remote class instance. The `spawn(...)` function may also accept class constructor arguments as subsequent parameters.
+The `spawn(...)` function will spawn a threadable class and return a handle to caller allowing it to call methods on the remote class instance. The `spawn(...)` function may also accept the classes constructor arguments.
 
 ```typescript
 import { spawn, Main, Worker } from '@sinclair/threadbox'
@@ -279,7 +279,7 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
 
 ## Marshal
 
-The `Marshal` decorator marks a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with `Marshal` across `Thread` function calls, as well as across channel `Sender`.
+The `Marshal` decorator registers a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with `Marshal` across `Thread` function calls, as well as across a channel `Sender`.
 
 This functionality allows class instances to be transferred to remote threads for remote invocation.
 
@@ -310,7 +310,7 @@ import { spawn, Main, Thread, Marshal } from '@sinclair/threadbox'
 // JavaScript users can use __Marshal(Foo) if
 // decorators are not available.
 ```
-Note: There is a serialization cost to marshling. For performance, only `Marshal` when you need to move logic in and out of threads.
+Note: There is a serialization cost to marshaling. For performance, only `Marshal` when you need to move logic in and out of threads.
 
 <a name="Mutex"></a>
 
