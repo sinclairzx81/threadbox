@@ -29,18 +29,35 @@ THE SOFTWARE.
 import { MarshalEncoder, MarshalTransferList } from '../marshal/index'
 import { ThreadKey } from './registry'
 
+// #region Errors
+
+export class ThreadProtocolEncodeError extends Error {
+    constructor(data: any) {
+        const json = JSON.stringify(data)
+        super(`Unable to encode protocol message: ${json}`)
+    }
+}
+export class ThreadProtocolDecodeError extends Error {
+    constructor(data: any) {
+        const json = JSON.stringify(data)
+        super(`Unable to decode protocol message: ${json}`)
+    }
+}
+
+// #endregion
+
+type FunctionKey = string;
+
 // Protocol
 //
 // The following is the protocol used to communicate with Workers.
-// This code encodes and decodes several operations that are used 
-// construct, execute and tear down workers. These functions
-// encode specifically for transmission over MessagePorts, and
-// exclusively for the thread WorkerInterface and host thread.
+// This module encodes and decodes several operations that are used 
+// construct, execute and dispose of workers.
 
 // #region Commands
 
-/** Parent > Worker */ export type Construct = { kind: 'construct', ordinal: number, threadKey: ThreadKey, params: any[] };
-/** Parent > Worker */ export type Execute   = { kind: 'execute',   ordinal: number, functionKey: string, params: any[] };
+/** Parent > Worker */ export type Construct = { kind: 'construct', ordinal: number, threadKey: ThreadKey, args: any[] };
+/** Parent > Worker */ export type Execute   = { kind: 'execute',   ordinal: number, functionKey: FunctionKey, args: any[] };
 /** Worker < Parent */ export type Result    = { kind: 'result',    ordinal: number, result: any };
 /** Worker < Parent */ export type Error     = { kind: 'error',     ordinal: number, error: string };
 /** Parent > Worker */ export type Dispose   = { kind: 'dispose',   ordinal: number };
@@ -53,8 +70,8 @@ export type Command   = Construct | Execute | Result | Error | Dispose | Dispose
 // #region Message
 
 export type Encoded = { kind: 'default' | 'marshalled', data: any };
-/** Parent > Worker */ export type ConstructMessage = { kind: 'construct', ordinal: number, threadKey: ThreadKey, params: Encoded[] };
-/** Parent > Worker */ export type ExecuteMessage   = { kind: 'execute',   ordinal: number, functionKey: string, params: Encoded[] };
+/** Parent > Worker */ export type ConstructMessage = { kind: 'construct', ordinal: number, threadKey: ThreadKey, args: Encoded[] };
+/** Parent > Worker */ export type ExecuteMessage   = { kind: 'execute',   ordinal: number, functionKey: FunctionKey, args: Encoded[] };
 /** Worker < Parent */ export type ResultMessage    = { kind: 'result',    ordinal: number, result: Encoded };
 /** Worker < Parent */ export type ErrorMessage     = { kind: 'error',     ordinal: number, error: string };
 /** Parent > Worker */ export type DisposeMessage   = { kind: 'dispose',   ordinal: number };
@@ -65,9 +82,8 @@ export type Message = ConstructMessage | ExecuteMessage | ResultMessage | ErrorM
 // #endregion
 
 /**
- * A protocol encoder for messages exchanges between threads. Provides
- * encoders for all the messages. Leveraged by the `LocalThread` and
- * `ThreadHandle`.
+ * A protocol encoder for messages exchanged between worker threads.
+ * Leveraged exclusively by the `LocalThread` and `ThreadHandle`.
  */
 export class ThreadProtocol {
 
@@ -77,16 +93,16 @@ export class ThreadProtocol {
     private static encodeConstruct(command: Construct): ConstructMessage {
         return {
             ...command,
-            params: command.params.map((param: any) => {
-                if (MarshalEncoder.isInstanceMarshalled(param)) {
+            args: command.args.map((arg: any) => {
+                if (MarshalEncoder.isInstanceMarshalled(arg)) {
                     return {
                         kind: 'marshalled',
-                        data: MarshalEncoder.encode(param)
+                        data: MarshalEncoder.encode(arg)
                     }
                 } else {
                     return {
                         kind: 'default',
-                        data: param
+                        data: arg
                     }
                 }
             })
@@ -96,16 +112,16 @@ export class ThreadProtocol {
     private static encodeExecute(command: Execute): ExecuteMessage {
         return {
             ...command,
-            params: command.params.map(param => {
-                if (MarshalEncoder.isInstanceMarshalled(param)) {
+            args: command.args.map(arg => {
+                if (MarshalEncoder.isInstanceMarshalled(arg)) {
                     return {
                         kind: 'marshalled',
-                        data: MarshalEncoder.encode(param)
+                        data: MarshalEncoder.encode(arg)
                     }
                 } else {
                     return {
                         kind: 'default',
-                        data: param
+                        data: arg
                     }
                 }
             })
@@ -144,14 +160,14 @@ export class ThreadProtocol {
     /** Encodes the given `Command` as a protocol message. */
     public static encode(command: Command): [Message, any[]] {
         switch (command.kind) {
-            case 'construct': return [this.encodeConstruct(command), MarshalTransferList.search(command.params)]
-            case 'execute':   return [this.encodeExecute(command),   MarshalTransferList.search(command.params)]
+            case 'construct': return [this.encodeConstruct(command), MarshalTransferList.search(command.args)]
+            case 'execute':   return [this.encodeExecute(command),   MarshalTransferList.search(command.args)]
             case 'result':    return [this.encodeResult(command),    MarshalTransferList.search(command.result)]
             case 'error':     return [this.encodeError(command),     MarshalTransferList.search(command.error)]
             case 'dispose':   return [this.encodeDispose(command),   []]
             case 'disposed':  return [this.encodeDisposed(command),  []]
             case 'terminate': return [this.encodeTerminate(command), []]
-            default: throw Error('encode: Invalid protocol command kind')
+            default: throw new ThreadProtocolEncodeError(command)
         }
     }
 
@@ -163,7 +179,7 @@ export class ThreadProtocol {
     private static decodeConstruct(message: ConstructMessage): Construct {
         return {
             ...message,
-            params: message.params.map(param => {
+            args: message.args.map(param => {
                 if (param.kind === 'marshalled') {
                     return MarshalEncoder.decode(param.data)
                 } else {
@@ -176,7 +192,7 @@ export class ThreadProtocol {
     private static decodeExecute(message: ExecuteMessage): Execute {
         return {
             ...message,
-            params: message.params.map(param => {
+            args: message.args.map(param => {
                 if (param.kind === 'marshalled') {
                     return MarshalEncoder.decode(param.data)
                 } else {
@@ -220,7 +236,7 @@ export class ThreadProtocol {
             case 'dispose':   return this.decodeDispose(message)
             case 'disposed':  return this.decodeDisposed(message)
             case 'terminate': return this.decodeTerminate(message)
-            default: throw Error('decode: Invalid message kind')
+            default: throw new ThreadProtocolDecodeError(message)
         }
     }
 

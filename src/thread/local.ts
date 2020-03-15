@@ -26,9 +26,22 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { isMainThread, workerData, MessagePort, parentPort } from 'worker_threads'
-import { ThreadProtocol, ConstructMessage, Construct, Execute, Dispose, Terminate } from './protocol'
+import { isMainThread, workerData, parentPort, MessagePort } from 'worker_threads'
+import { ThreadProtocol, ConstructMessage, Command, Construct, Execute, Dispose, Terminate } from './protocol'
 import { ThreadRegistry } from './registry'
+
+// #region Errors
+
+export class HostInvalidCommandError extends Error {
+    constructor(command: Command) {
+        const json = JSON.stringify(command)
+        super(`Received an invalid command from the host thread ${json}`)
+    }
+}
+
+// #endregion
+
+// #region ThreadLocal
 
 /**
  * The WorkerData exchanged on worker startup.
@@ -55,7 +68,7 @@ export class ThreadLocal {
         }
         try {
             const ordinal = command.ordinal
-            const result = await func.apply(instance, command.params)
+            const result = await func.apply(instance, command.args)
             const [message, transferList] = ThreadProtocol.encode({ kind: 'result', ordinal, result })
             port.postMessage(message, transferList)
         } catch (error) {
@@ -86,9 +99,10 @@ export class ThreadLocal {
         port.on('message', async message => {
             const command = ThreadProtocol.decode(message)
             switch (command.kind) {
-                case 'execute':   return this.execute(port, instance, command)
-                case 'dispose':   return this.dispose(port, instance, command)
+                case 'execute': return this.execute(port, instance, command)
+                case 'dispose': return this.dispose(port, instance, command)
                 case 'terminate': return this.terminate(port, instance, command)
+                default: throw new HostInvalidCommandError(command)
             }
         })
     }
@@ -97,19 +111,19 @@ export class ThreadLocal {
     public static start() {
         setImmediate(async () => {
             // Activate main
-            if(isMainThread) {
+            if (isMainThread) {
                 const constructor = ThreadRegistry.getMainConstructor()
                 if (constructor) {
                     const instance = new constructor()
                     await instance.main(process.argv)
                 }
-            } 
+            }
             // Activate worker
             else if (workerData && parentPort && workerData.construct) {
                 const construct = ThreadProtocol.decode(workerData.construct) as Construct
                 const constructor = ThreadRegistry.getConstructorFromThreadKey(construct.threadKey)
                 if (constructor) {
-                    const instance = new constructor(...construct.params)
+                    const instance = new constructor(...construct.args)
                     this.listen(instance, parentPort!)
                 }
             } else {
@@ -118,3 +132,5 @@ export class ThreadLocal {
         })
     }
 }
+
+// #endregion

@@ -26,11 +26,12 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-export { channel, select, Sender, Receiver, EOF }     from './channel/index'
-export { into }                                       from './async/index'
-export { Mutex, MutexLock }                           from './mutex/index'
-import { ThreadLocal, ThreadRegistry, ThreadHandle }  from './thread/index'
-import { MarshalEncoder }                             from './marshal/index'
+import { ThreadLocal, ThreadRegistry, ThreadHandle, ThreadResourceLimits }  from './thread/index'
+import { MarshalEncoder }                                                   from './marshal/index'
+
+export { channel, select, Sender, Receiver, EOF }                           from './channel/index'
+export { into }                                                             from './async/index'
+export { Mutex, MutexLock }                                                 from './mutex/index'
 
 // #region Marshal
 
@@ -113,14 +114,27 @@ export type ThreadInterfaceFunction<T> = T extends (...args: infer U) => infer R
 
 export type ThreadInterface<T> = { [K in FunctionKeys<T>]: ThreadInterfaceFunction<T[K]> } & { dispose: () => Promise<void> }
 
+
+/**
+ * Spawns a new thread with the given resourceLimits and constructor. The additional parameters given 
+ * will be injected into the constructor when instanced in the remote thread. The constructor given must
+ * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
+ */
+export function spawn<T extends any[], R>(resourceLimits: ThreadResourceLimits, constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+
 /**
  * Spawns a new thread with the given constructor. The additional parameters given will be
  * injected into the constructor when instanced in the remote thread. The constructor given must
  * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
  */
-export function spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R> {
-    
-    return ThreadHandle.create(constructor, ...args) as ThreadHandle & ThreadInterface<R>
+export function spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+
+/** Spawns a new thread with the given arguments. */
+export function spawn(...args: any[]): ThreadInterface<any> {
+    const overloads = ThreadRegistry.getThreadKeyFromConstructor(args[0]) !== null ? [{}, ...args] : [...args]
+    const resourceLimits = overloads.shift()
+    const constructor = overloads.shift()
+    return ThreadHandle.create(resourceLimits, constructor, ...overloads) as ThreadHandle & ThreadInterface<any>
 }
 
 // #endregion

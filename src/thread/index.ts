@@ -28,5 +28,5 @@ THE SOFTWARE.
 
 export { ThreadRegistry }      from './registry'
 export { ThreadLocal }         from './local'
-export { ThreadHandle }        from './handle'
+export { ThreadHandle, ThreadResourceLimits } from './handle'
 

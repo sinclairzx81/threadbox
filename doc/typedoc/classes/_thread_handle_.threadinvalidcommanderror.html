@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MultipleMainConstructorError | @sinclair/threadbox</title>
+	<title>ThreadInvalidCommandError | @sinclair/threadbox</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,19 +56,26 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_thread_registry_.html">&quot;thread/registry&quot;</a>
+					<a href="../modules/_thread_handle_.html">&quot;thread/handle&quot;</a>
 				</li>
 				<li>
-					<a href="_thread_registry_.multiplemainconstructorerror.html">MultipleMainConstructorError</a>
+					<a href="_thread_handle_.threadinvalidcommanderror.html">ThreadInvalidCommandError</a>
 				</li>
 			</ul>
-			<h1>Class MultipleMainConstructorError</h1>
+			<h1>Class ThreadInvalidCommandError</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Raised on protocol violation.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -76,7 +83,7 @@
 						<a href="_thread_registry_.multiplemainconstructorerror.html#error" class="tsd-signature-type">Error</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">MultipleMainConstructorError</span>
+								<span class="target">ThreadInvalidCommandError</span>
 							</li>
 						</ul>
 					</li>
@@ -89,16 +96,16 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_thread_registry_.multiplemainconstructorerror.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_thread_handle_.threadinvalidcommanderror.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_registry_.multiplemainconstructorerror.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_registry_.multiplemainconstructorerror.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_thread_registry_.multiplemainconstructorerror.html#stack" class="tsd-kind-icon">stack</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_thread_registry_.multiplemainconstructorerror.html#error" class="tsd-kind-icon">Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_handle_.threadinvalidcommanderror.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_thread_handle_.threadinvalidcommanderror.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_thread_handle_.threadinvalidcommanderror.html#stack" class="tsd-kind-icon">stack</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_thread_handle_.threadinvalidcommanderror.html#error" class="tsd-kind-icon">Error</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,16 +117,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Multiple<wbr>Main<wbr>Constructor<wbr>Error<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_registry_.multiplemainconstructorerror.html" class="tsd-signature-type">MultipleMainConstructorError</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Thread<wbr>Invalid<wbr>Command<wbr>Error<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_protocol_.html#command" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.threadinvalidcommanderror.html" class="tsd-signature-type">ThreadInvalidCommandError</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/registry.ts#L31">src/thread/registry.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L44">src/thread/handle.ts:44</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_thread_registry_.multiplemainconstructorerror.html" class="tsd-signature-type">MultipleMainConstructorError</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>command: <a href="../modules/_thread_protocol_.html#command" class="tsd-signature-type">Command</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_thread_handle_.threadinvalidcommanderror.html" class="tsd-signature-type">ThreadInvalidCommandError</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -229,7 +242,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mutex_mutex_.html">&quot;mutex/mutex&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_thread_handle_.html">&quot;thread/handle&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -241,45 +254,66 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_thread_protocol_.html">&quot;thread/protocol&quot;</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_thread_registry_.html">&quot;thread/registry&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.constructornotthreadableerror.html" class="tsd-kind-icon">Constructor<wbr>Not<wbr>Threadable<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.threadentry.html" class="tsd-kind-icon">Thread<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_thread_handle_.threadhandle.html" class="tsd-kind-icon">Thread<wbr>Handle</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_registry_.multiplemainconstructorerror.html" class="tsd-kind-icon">Multiple<wbr>Main<wbr>Constructor<wbr>Error</a>
+						<a href="_thread_handle_.threadinvalidcommanderror.html" class="tsd-kind-icon">Thread<wbr>Invalid<wbr>Command<wbr>Error</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_thread_registry_.multiplemainconstructorerror.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_thread_handle_.threadinvalidcommanderror.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_thread_registry_.multiplemainconstructorerror.html#message" class="tsd-kind-icon">message</a>
+								<a href="_thread_handle_.threadinvalidcommanderror.html#message" class="tsd-kind-icon">message</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="_thread_registry_.multiplemainconstructorerror.html#name" class="tsd-kind-icon">name</a>
+								<a href="_thread_handle_.threadinvalidcommanderror.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_thread_registry_.multiplemainconstructorerror.html#stack" class="tsd-kind-icon">stack</a>
+								<a href="_thread_handle_.threadinvalidcommanderror.html#stack" class="tsd-kind-icon">stack</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_thread_registry_.multiplemainconstructorerror.html#error" class="tsd-kind-icon">Error</a>
+								<a href="_thread_handle_.threadinvalidcommanderror.html#error" class="tsd-kind-icon">Error</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_registry_.threadregistry.html" class="tsd-kind-icon">Thread<wbr>Registry</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-kind-icon">Thread<wbr>Resource<wbr>Limits</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_thread_registry_.html#constructor" class="tsd-kind-icon">Constructor</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#constructor" class="tsd-kind-icon">Constructor</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_thread_registry_.html#threadkey" class="tsd-kind-icon">Thread<wbr>Key</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#deferred" class="tsd-kind-icon">Deferred</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#functionkey" class="tsd-kind-icon">Function<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#ordinal" class="tsd-kind-icon">Ordinal</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#reject" class="tsd-kind-icon">Reject</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#resolve" class="tsd-kind-icon">Resolve</a>
 					</li>
 				</ul>
 			</nav>

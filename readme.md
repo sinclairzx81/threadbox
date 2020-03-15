@@ -70,9 +70,9 @@ import { spawn, Main, Thread, channel, Sender, Receiver } from '@sinclair/thread
 
 ## Overview
 
-ThreadBox is a threading library for JavaScript that is built on top of NodeJS `worker_threads`. It is written to allow for compute heavy JavaScript and WASM to be trivially executed in remote workers. ThreadBox allows any JavaScript class to be run within a worker thread where the class itself is treated as an interface to the worker. ThreadBox manages communication between host and worker thread as well as providing clean worker disposal.
+ThreadBox is a threading library for JavaScript that is built on top of NodeJS `worker_threads`. It is written to allow for compute intensive JavaScript or WASM processes to be trivially executed in remote worker threads. ThreadBox approaches this by allowing any `class` to be moved and instanced in a remote worker thread. It provides to the caller an async interface of the `class` to allow the caller to invoke operations on the worker thread.
 
-ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recursively call into the applications entry module (typically `app.js`) and instance a requested `@Thread()` class when spawning a worker. Because each new worker is spawned from the same entry module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This recursive approach allows for ergonomic same file threading without needing to split related worker logic into seperate `.js` files while still retaining the ability to naturally split classes and functions across multiple modules.
+ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recursively call into the applications entry module (typically `app.js`) and instance a requested `@Thread()` class when spawning a new worker. Because each new worker is spawned from the same entry module as the application, `class`, `function` and `const` definitions defined by the application are also available to each subsequent thread. This approach allows for ergonomic same file threading common to other languages supporting threads.
 
 ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
@@ -104,9 +104,10 @@ $ npm install @sinclair/threadbox --save
 
 ## Setup
 
-ThreadBox makes use of both TypeScript decorators and `[Symbol.asyncIterator]`. TypeScript users should configure `tsconfig.json` for the following.
+ThreadBox primarily uses decorators to denote `Main`, `Thread` and `Marshal` class types. It also implements `[Symbol.asyncIterator]` for channels. TypeScript users should configure their environment for the following.
 
 ```javascript
+// tsconfig.json
 {
    "compilerOptions": {
       "experimentalDecorators": true,
@@ -120,37 +121,26 @@ ThreadBox makes use of both TypeScript decorators and `[Symbol.asyncIterator]`. 
 
 ## Main
 
-The `@Main()` decorator denotes a class as the programs entry point. The classes `main(argv)` function will be called automatically when the application is started. 
+The `Main` decorator denotes a class as the programs entry point. It's `main(...)` function will be automatically called by ThreadBox when the program is run.
 
 ```typescript
 import { Main } from '@sinclair/threadbox'
 
-@Main() default class {
-    main(argv: string[]) {
-        console.log(argv)
+@Main() class Program {
+    main() {
+        console.log('Hello World')
     }
 }
 
 // JavaScript users can use __Main(Program) if
 // decorators are not available.
 ```
-Because ThreadBox spawns worker threads recursively, the `@Main()` class will executed only in the main thread. The `@Main` decorator abstracts the following.
-
-```typescript
-import { isMainThread } from `worker_thread`
-
-if(isMainThread) { 
-    /* main thread */
-} else {
-    /* worker thread  */
-}
-```
 
 <a name="Thread"></a>
 
 ## Thread
 
-The `@Thread()` decorator marks a class as threadable and allows it to be spawned as a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional `dispose()` function that will be invoked when the host thread terminates the worker.
+The `Thread` decorator marks a class as threadable and allows it to be spawned as a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional `dispose()` function that will be invoked when the host thread terminates the worker.
 
 ```typescript
 import { Thread } from '@sinclair/threadbox'
@@ -180,7 +170,7 @@ All JavaScript classes can be decorated with `@Thread()`.
 
 ## Spawn
 
-The `spawn()` function spawns a new worker thread and returns a handle to the class being spawned. The `spawn()` function may also accept parameters if the class constructor takes arguments.
+The `spawn(...)` function will spawn `Thread` class and return a handle to caller allowing it to call methods on the remote class instance. The `spawn(...)` function may also accept class constructor arguments as subsequent parameters.
 
 ```typescript
 import { spawn, Main, Worker } from '@sinclair/threadbox'
@@ -238,17 +228,15 @@ import { spawn, Main, Worker, channel, Sender, Receiver } from '@sinclair/thread
 
 @Main() default class {
     main() {
-        // spawn worker
         const worker = spawn(Worker)
-        // create channel
         const [sender, receiver] = channel<number>()
-        // pass sender to worker
-        worker.execute(sender)
-        // iterate receiver
+
+        worker.execute(sender) // move to worker
+        
         for await(const value of receiver) {
             console.log('recv', value)
         }
-        // dispose
+        
         await worker.dispose()
     }
 }
@@ -269,22 +257,19 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
             await sender.send(2)
             await sender.send(3)
             await sender.end()
-        }).then(() => { /* done */ })
-        return receiver
+        })
+        return receiver // move to host
     }
 }
 
 @Main() default class {
     main() {
-        // Spawn new Worker thread
         const worker = spawn(Worker)
-        // await receiver
-        const receiver = await worker.stream()
-        // iterate receiver
-        for await(const value of receiver) {
+        const stream = await worker.stream()
+
+        for await(const value of stream) {
             console.log('recv', value)
         }
-        // dispose
         await worker.dispose()
     }
 }
@@ -294,7 +279,7 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
 
 ## Marshal
 
-The `@Marshal()` decorator marks a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with `@Marshal()` across thread function calls, as well as across channels.
+The `Marshal` decorator marks a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with `Marshal` across `Thread` function calls, as well as across channel `Sender`.
 
 This functionality allows class instances to be transferred to remote threads for remote invocation.
 
@@ -305,24 +290,19 @@ import { spawn, Main, Thread, Marshal } from '@sinclair/threadbox'
 // Instances of this class can be sent between threads.
 @Marshal() class Transferrable {
     method() {
-        console.log('hello world !!!')
+        console.log('Hello World')
     }
 }
 @Thread() class Worker {
-    // instance sent from host thread.
     execute(instance: Transferrable) {
         instance.method() // callable
     }
 }
 @Main() default class {
     async main() {
-        // spawn worker
         const worker = spawn(Worker)
-        // create instance
         const instance = new Transferrable()
-        // send instance to worker to execute.
         await worker.execute(instance)
-        // dispose.
         await worker.dispose()
     }
 }
@@ -330,7 +310,7 @@ import { spawn, Main, Thread, Marshal } from '@sinclair/threadbox'
 // JavaScript users can use __Marshal(Foo) if
 // decorators are not available.
 ```
-Marshalling class instances isn't free and is generally slower than passing plain JS objects. Use only when you need to move runtime logic between threads.
+Note: There is a serialization cost to marshling. For performance, only `Marshal` when you need to move logic in and out of threads.
 
 <a name="Mutex"></a>
 

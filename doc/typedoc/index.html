@@ -127,8 +127,8 @@
 				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
 					<h2>Overview</h2>
 				</a>
-				<p>ThreadBox is a threading library for JavaScript that is built upon NodeJS <code>worker_threads</code>. It is written to allow for compute intensive JavaScript and WASM to be trivially distributed across many threads by wrapping heavy calls within a plain JavaScript class. ThreadBox can take any JavaScript class and move it to a worker thread. It provides to the caller an asynchronous interface in which to invoke methods of the class across thread boundaries, and provides clean worker thread disposal.</p>
-				<p>ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recursively call into the applications entry module (typically <code>app.js</code>) and instance a requested <code>@Thread()</code> class. Because each new worker is spawned from the same entry module as the application, <code>class</code>, <code>function</code> and <code>const</code> definitions defined by the application are also available to each subsequent thread. This recursive approach allows for ergonomic same file threading without needing to split related worker logic into seperate <code>.js</code> files while still retaining the ability to naturally split classes and functions across multiple modules.</p>
+				<p>ThreadBox is a threading library for JavaScript that is built on top of NodeJS <code>worker_threads</code>. It is written to allow for compute intensive JavaScript or WASM processes to be trivially executed in remote worker threads. ThreadBox approaches this by allowing any <code>class</code> to be moved and instanced in a remote worker thread. It provides to the caller an async interface of the <code>class</code> to allow the caller to invoke operations on the worker thread.</p>
+				<p>ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recursively call into the applications entry module (typically <code>app.js</code>) and instance a requested <code>@Thread()</code> class when spawning a new worker. Because each new worker is spawned from the same entry module as the application, <code>class</code>, <code>function</code> and <code>const</code> definitions defined by the application are also available to each subsequent thread. This approach allows for ergonomic same file threading common to other languages supporting threads.</p>
 				<p>ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.</p>
 				<p>Built with Node 12.16.1 LTS and TypeScript 3.8.3.</p>
 				<p>Licence MIT</p>
@@ -143,6 +143,7 @@
 				<ul>
 					<li><a href="#Install">Install</a></li>
 					<li><a href="#Overview">Overview</a></li>
+					<li><a href="#Setup">Setup</a></li>
 					<li><a href="#Main">Main</a></li>
 					<li><a href="#Thread">Thread</a></li>
 					<li><a href="#Spawn">Spawn</a></li>
@@ -151,34 +152,39 @@
 					<li><a href="#Mutex">Mutex</a></li>
 					<li><a href="#SharedArrayBuffer">SharedArrayBuffer</a></li>
 				</ul>
+				<p><a name="Setup"></a></p>
+				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+					<h2>Setup</h2>
+				</a>
+				<p>ThreadBox primarily uses decorators to denote <code>Main</code>, <code>Thread</code> and <code>Marshal</code> class types. It also implements <code>[Symbol.asyncIterator]</code> for channels. TypeScript users should configure their environment for the following.</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// tsconfig.json</span>
+{
+   <span class="hljs-string">"compilerOptions"</span>: {
+      <span class="hljs-string">"experimentalDecorators"</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-string">"downlevelIteration"</span>: <span class="hljs-literal">true</span>,
+      ...
+   }
+}</code></pre>
 				<p><a name="Main"></a></p>
 				<a href="#main" id="main" style="color: inherit; text-decoration: none;">
 					<h2>Main</h2>
 				</a>
-				<p>The <code>@Main()</code> decorator denotes a class as the programs entry point. The classes <code>main(argv)</code> function will be called automatically when the application is started. </p>
+				<p>The <code>Main</code> decorator denotes a class as the programs entry point. It&#39;s <code>main(...)</code> function will be automatically called by ThreadBox when the program is run.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Main } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
 
-<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
-    main(argv: <span class="hljs-built_in">string</span>[]) {
-        <span class="hljs-built_in">console</span>.log(argv)
+<span class="hljs-meta">@Main</span>() <span class="hljs-keyword">class</span> Program {
+    main() {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hello World'</span>)
     }
 }
 
 <span class="hljs-comment">// JavaScript users can use __Main(Program) if</span>
 <span class="hljs-comment">// decorators are not available.</span></code></pre>
-				<p>Because ThreadBox spawns worker threads recursively, the <code>@Main()</code> class will executed only in the main thread. The <code>@Main</code> decorator abstracts the following.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { isMainThread } <span class="hljs-keyword">from</span> <span class="hljs-string">`worker_thread`</span>
-
-<span class="hljs-keyword">if</span>(isMainThread) { 
-    <span class="hljs-comment">/* main thread */</span>
-} <span class="hljs-keyword">else</span> {
-    <span class="hljs-comment">/* worker thread  */</span>
-}</code></pre>
 				<p><a name="Thread"></a></p>
 				<a href="#thread" id="thread" style="color: inherit; text-decoration: none;">
 					<h2>Thread</h2>
 				</a>
-				<p>The <code>@Thread()</code> decorator marks a class as threadable and allows it to be spawned as a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional <code>dispose()</code> function that will be invoked when the host thread terminates the worker.</p>
+				<p>The <code>Thread</code> decorator marks a class as threadable and allows it to be spawned as a worker thread. When spawned, the host thread will be able to execute any function available on the class. The class may additionally implement an optional <code>dispose()</code> function that will be invoked when the host thread terminates the worker.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Thread } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
 
 <span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
@@ -203,7 +209,7 @@
 				<a href="#spawn" id="spawn" style="color: inherit; text-decoration: none;">
 					<h2>Spawn</h2>
 				</a>
-				<p>The <code>spawn()</code> function spawns a new worker thread and returns a handle to the class being spawned. The <code>spawn()</code> function may also accept parameters if the class constructor takes arguments.</p>
+				<p>The <code>spawn(...)</code> function will spawn <code>Thread</code> class and return a handle to caller allowing it to call methods on the remote class instance. The <code>spawn(...)</code> function may also accept class constructor arguments as subsequent parameters.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { spawn, Main, Worker } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
 
 <span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
@@ -251,17 +257,15 @@
 
 <span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
     main() {
-        <span class="hljs-comment">// spawn worker</span>
         <span class="hljs-keyword">const</span> worker = spawn(Worker)
-        <span class="hljs-comment">// create channel</span>
         <span class="hljs-keyword">const</span> [sender, receiver] = channel&lt;<span class="hljs-built_in">number</span>&gt;()
-        <span class="hljs-comment">// pass sender to worker</span>
-        worker.execute(sender)
-        <span class="hljs-comment">// iterate receiver</span>
+
+        worker.execute(sender) <span class="hljs-comment">// move to worker</span>
+
         <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> value of receiver) {
             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'recv'</span>, value)
         }
-        <span class="hljs-comment">// dispose</span>
+
         <span class="hljs-keyword">await</span> worker.dispose()
     }
 }</code></pre>
@@ -279,22 +283,19 @@
             <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">2</span>)
             <span class="hljs-keyword">await</span> sender.send(<span class="hljs-number">3</span>)
             <span class="hljs-keyword">await</span> sender.end()
-        }).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> { <span class="hljs-comment">/* done */</span> })
-        <span class="hljs-keyword">return</span> receiver
+        })
+        <span class="hljs-keyword">return</span> receiver <span class="hljs-comment">// move to host</span>
     }
 }
 
 <span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
     main() {
-        <span class="hljs-comment">// Spawn new Worker thread</span>
         <span class="hljs-keyword">const</span> worker = spawn(Worker)
-        <span class="hljs-comment">// await receiver</span>
-        <span class="hljs-keyword">const</span> receiver = <span class="hljs-keyword">await</span> worker.stream()
-        <span class="hljs-comment">// iterate receiver</span>
-        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> value of receiver) {
+        <span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">await</span> worker.stream()
+
+        <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span>(<span class="hljs-keyword">const</span> value of stream) {
             <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'recv'</span>, value)
         }
-        <span class="hljs-comment">// dispose</span>
         <span class="hljs-keyword">await</span> worker.dispose()
     }
 }</code></pre>
@@ -302,7 +303,7 @@
 				<a href="#marshal" id="marshal" style="color: inherit; text-decoration: none;">
 					<h2>Marshal</h2>
 				</a>
-				<p>The <code>@Marshal()</code> decorator marks a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with <code>@Marshal()</code> across thread function calls, as well as across channels.</p>
+				<p>The <code>Marshal</code> decorator marks a class as marshalled. This enables instances of the class to be sent and reconstructed across thread boundaries. ThreadBox will automatically marshal all classes marked with <code>Marshal</code> across <code>Thread</code> function calls, as well as across channel <code>Sender</code>.</p>
 				<p>This functionality allows class instances to be transferred to remote threads for remote invocation.</p>
 				<pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { spawn, Main, Thread, Marshal } <span class="hljs-keyword">from</span> <span class="hljs-string">'@sinclair/threadbox'</span>
@@ -310,31 +311,26 @@
 <span class="hljs-comment">// Instances of this class can be sent between threads.</span>
 <span class="hljs-meta">@Marshal</span>() <span class="hljs-keyword">class</span> Transferrable {
     method() {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello world !!!'</span>)
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hello World'</span>)
     }
 }
 <span class="hljs-meta">@Thread</span>() <span class="hljs-keyword">class</span> Worker {
-    <span class="hljs-comment">// instance sent from host thread.</span>
     execute(instance: Transferrable) {
         instance.method() <span class="hljs-comment">// callable</span>
     }
 }
 <span class="hljs-meta">@Main</span>() <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> {
     <span class="hljs-keyword">async</span> main() {
-        <span class="hljs-comment">// spawn worker</span>
         <span class="hljs-keyword">const</span> worker = spawn(Worker)
-        <span class="hljs-comment">// create instance</span>
         <span class="hljs-keyword">const</span> instance = <span class="hljs-keyword">new</span> Transferrable()
-        <span class="hljs-comment">// send instance to worker to execute.</span>
         <span class="hljs-keyword">await</span> worker.execute(instance)
-        <span class="hljs-comment">// dispose.</span>
         <span class="hljs-keyword">await</span> worker.dispose()
     }
 }
 
 <span class="hljs-comment">// JavaScript users can use __Marshal(Foo) if</span>
 <span class="hljs-comment">// decorators are not available.</span></code></pre>
-				<p>Marshalling class instances isn&#39;t free and is generally slower than passing plain JS objects. Use only when you need to move runtime logic between threads.</p>
+				<p>Note: There is a serialization cost to marshling. For performance, only <code>Marshal</code> when you need to move logic in and out of threads.</p>
 				<p><a name="Mutex"></a></p>
 				<a href="#mutex" id="mutex" style="color: inherit; text-decoration: none;">
 					<h2>Mutex</h2>

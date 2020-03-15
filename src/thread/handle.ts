@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { Worker } from 'worker_threads'
+import { Worker, WorkerOptions } from 'worker_threads'
 import { ThreadProtocol, Message, Error, Result, Disposed, Command } from './protocol'
 import { ThreadRegistry } from './registry'
 import { extname } from 'path'
@@ -41,10 +41,10 @@ export class ConstructorNotThreadableError extends Error {
 }
 
 /** Raised on protocol violation. */
-export class UnexpectedThreadProtocolCommand extends Error {
+export class ThreadInvalidCommandError extends Error {
     constructor(command: Command) {
         const data = JSON.stringify(command)
-        super(`The thread handle received an unexpected protocol command from the worker. Received ${data}`)
+        super(`Received an invalid command from the worker thread ${data}`)
     }
 }
 
@@ -52,12 +52,8 @@ export class UnexpectedThreadProtocolCommand extends Error {
 
 // #region ThreadEntry
 
-/**
- * Provides logic to resolve the application entry module. Used
- * by the `ThreadHandle` to spawn new workers.
- */
 export class ThreadEntry {
-    /** Resolves the thread entry module path. */
+    /** Resolves this applications entry module. */
     public static resolve(): string {
         return extname(process.argv[1]) !== '.js' ? process.argv[1] + '.js' : process.argv[1]
     }
@@ -68,9 +64,20 @@ export class ThreadEntry {
 type Resolve<T> = (value: T) => void
 type Reject = (error: string) => void
 type Deferred = [Resolve<any>, Reject]
-
 type Constructor = new (...args: any[]) => any
+
+type FunctionKey = string
 type Ordinal = number
+
+/** Worker thread resource limits */
+export interface ThreadResourceLimits {
+    /** The maximum size of the main heap in MB. */
+    maxOldGenerationSizeMb?: number
+    /** The maximum size of a heap space for recently created objects. */
+    maxYoungGenerationSizeMb?: number 
+    /** The size of a pre-allocated memory range used for generated code. */
+    codeRangeSizeMb?: number 
+}
 
 /**
  * A handle to a spawned thread. Encapulates protocol message
@@ -83,28 +90,30 @@ export class ThreadHandle {
     private readonly worker: Worker
     private ordinal: Ordinal = 0
 
-    /** Creates a new thread with the given constructor and parameters. */
-    constructor(constructor: Constructor, params: any[]) {
+    /** Creates a new thread with the given constructor and arguments. */
+    constructor(resourceLimits: ThreadResourceLimits, constructor: Constructor, args: any[]) {
         const threadKey = ThreadRegistry.getThreadKeyFromConstructor(constructor)
         if (threadKey === null) {
             throw new ConstructorNotThreadableError(constructor)
         }
-        const [construct, _] = ThreadProtocol.encode({ kind: 'construct', ordinal: 0, threadKey, params })
+        const [construct, transferList] = ThreadProtocol.encode({ kind: 'construct', ordinal: 0, threadKey, args })
         const workerData = { construct }
-        this.worker = new Worker(ThreadEntry.resolve(), { workerData })
+        // transferList -> https://github.com/nodejs/node/pull/32278
+        const workerOptions = { workerData, resourceLimits, transferList } as WorkerOptions 
+        this.worker = new Worker(ThreadEntry.resolve(), workerOptions)
         this.worker.on('message', message => this.onMessage(message))
     }
 
     /** Executes a function on the thread with the given 'functionKey' and parameters. */
-    public execute(functionKey: string, params: any[]): Promise<any> {
+    public execute(functionKey: FunctionKey, args: any[]): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const ordinal = this.setAwaiter([resolve, reject])
-            const [message, transferList] = ThreadProtocol.encode({ kind: 'execute', ordinal, functionKey, params })
+            const [message, transferList] = ThreadProtocol.encode({ kind: 'execute', ordinal, functionKey, args })
             this.worker.postMessage(message, transferList)
         })
     }
 
-    /** Diposes and terminates this thread. Returns a Promise that resolves once the thread has terminated. */
+    /** Disposes this thread and terminates. Returns a Promise that resolves once the thread has terminated. */
     public dispose(): Promise<void> {
         return new Promise<any>((resolve, reject) => {
             const ordinal = this.setAwaiter([resolve, reject])
@@ -132,7 +141,6 @@ export class ThreadHandle {
         this.worker.postMessage(message, transferList)
         resolve(null)
     }
-
     /** Handles protocol messages. */
     private onMessage(message: Message) {
         const command = ThreadProtocol.decode(message)
@@ -140,7 +148,7 @@ export class ThreadHandle {
             case 'result': return this.onResult(command)
             case 'error': return this.onError(command)
             case 'disposed': return this.onDisposed(command)
-            default: throw new UnexpectedThreadProtocolCommand(command)
+            default: throw new ThreadInvalidCommandError(command)
         }
     }
     /** Sets an awaiter and returns its `Ordinal` */
@@ -158,14 +166,12 @@ export class ThreadHandle {
         this.awaiters.delete(ordinal)
         return awaiter
     }
-
     /** 
-     * Creates a ThreadHandle with the given constructor and arguments. This
-     * function will internally launch the worker and return a proxy handle
-     * to the caller.
+     * Creates a ThreadHandle with the given constructor and arguments. Returns 
+     * proxy handle to the remote worker thread class instance.
      */
-    public static create(constructor: Constructor, ...params: any[]): ThreadHandle {
-        return new Proxy(new ThreadHandle(constructor, params), {
+    public static create(resourceLimits: ThreadResourceLimits, constructor: Constructor, ...args: any[]): ThreadHandle {
+        return new Proxy(new ThreadHandle(resourceLimits, constructor, args), {
             get: (target: ThreadHandle, functionKey: string) => (...params: any[]) => {
                 return (functionKey !== 'dispose')
                     ? target.execute(functionKey, params)

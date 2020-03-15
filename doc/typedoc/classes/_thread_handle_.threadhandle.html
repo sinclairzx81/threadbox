@@ -128,27 +128,30 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Thread<wbr>Handle<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a>, params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Thread<wbr>Handle<span class="tsd-signature-symbol">(</span>resourceLimits<span class="tsd-signature-symbol">: </span><a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-signature-type">ThreadResourceLimits</a>, constructor<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L84">src/thread/handle.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L91">src/thread/handle.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new thread with the given constructor and parameters.</p>
+									<p>Creates a new thread with the given constructor and arguments.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
+									<h5>resourceLimits: <a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-signature-type">ThreadResourceLimits</a></h5>
+								</li>
+								<li>
 									<h5>constructor: <a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a></h5>
 								</li>
 								<li>
-									<h5>params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></h4>
@@ -164,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">awaiters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map&lt;number, Deferred&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L82">src/thread/handle.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L89">src/thread/handle.ts:89</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +177,7 @@
 					<div class="tsd-signature tsd-kind-icon">ordinal<span class="tsd-signature-symbol">:</span> <a href="../modules/_thread_handle_.html#ordinal" class="tsd-signature-type">Ordinal</a><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L84">src/thread/handle.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L91">src/thread/handle.ts:91</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +187,7 @@
 					<div class="tsd-signature tsd-kind-icon">worker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Worker</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L83">src/thread/handle.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L90">src/thread/handle.ts:90</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,12 +204,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L108">src/thread/handle.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L117">src/thread/handle.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Diposes and terminates this thread. Returns a Promise that resolves once the thread has terminated.</p>
+									<p>Disposes this thread and terminates. Returns a Promise that resolves once the thread has terminated.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -217,13 +220,13 @@
 					<a name="execute" class="tsd-anchor"></a>
 					<h3>execute</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">execute<span class="tsd-signature-symbol">(</span>functionKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">execute<span class="tsd-signature-symbol">(</span>functionKey<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_handle_.html#functionkey" class="tsd-signature-type">FunctionKey</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L99">src/thread/handle.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L108">src/thread/handle.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,10 +237,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>functionKey: <span class="tsd-signature-type">string</span></h5>
+									<h5>functionKey: <a href="../modules/_thread_handle_.html#functionkey" class="tsd-signature-type">FunctionKey</a></h5>
 								</li>
 								<li>
-									<h5>params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -254,7 +257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L153">src/thread/handle.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L161">src/thread/handle.ts:161</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L129">src/thread/handle.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L138">src/thread/handle.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,13 +307,13 @@
 					<a name="onerror" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> on<wbr>Error</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="_marshal_registry_.duplicateconstructorregistration.html#error" class="tsd-signature-type">Error</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Error<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="_thread_registry_.multiplemainconstructorerror.html#error" class="tsd-signature-type">Error</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L123">src/thread/handle.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L132">src/thread/handle.ts:132</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,7 +324,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>command: <a href="_marshal_registry_.duplicateconstructorregistration.html#error" class="tsd-signature-type">Error</a></h5>
+									<h5>command: <a href="_thread_registry_.multiplemainconstructorerror.html#error" class="tsd-signature-type">Error</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -338,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L137">src/thread/handle.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L145">src/thread/handle.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +369,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L117">src/thread/handle.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L126">src/thread/handle.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -394,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L147">src/thread/handle.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L155">src/thread/handle.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,29 +419,31 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>constructor<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a>, <span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>resourceLimits<span class="tsd-signature-symbol">: </span><a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-signature-type">ThreadResourceLimits</a>, constructor<span class="tsd-signature-symbol">: </span><a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/41b1b49/src/thread/handle.ts#L167">src/thread/handle.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/sinclairzx81/threadbox/blob/2ac43fa/src/thread/handle.ts#L173">src/thread/handle.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a ThreadHandle with the given constructor and arguments. This
-										function will internally launch the worker and return a proxy handle
-									to the caller.</p>
+									<p>Creates a ThreadHandle with the given constructor and arguments. Returns
+									proxy handle to the remote worker thread class instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
+									<h5>resourceLimits: <a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-signature-type">ThreadResourceLimits</a></h5>
+								</li>
+								<li>
 									<h5>constructor: <a href="../modules/_thread_handle_.html#constructor" class="tsd-signature-type">Constructor</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_thread_handle_.threadhandle.html" class="tsd-signature-type">ThreadHandle</a></h4>
@@ -578,13 +583,19 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_thread_handle_.unexpectedthreadprotocolcommand.html" class="tsd-kind-icon">Unexpected<wbr>Thread<wbr>Protocol<wbr>Command</a>
+						<a href="_thread_handle_.threadinvalidcommanderror.html" class="tsd-kind-icon">Thread<wbr>Invalid<wbr>Command<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_thread_handle_.threadresourcelimits.html" class="tsd-kind-icon">Thread<wbr>Resource<wbr>Limits</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_thread_handle_.html#constructor" class="tsd-kind-icon">Constructor</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_thread_handle_.html#deferred" class="tsd-kind-icon">Deferred</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_thread_handle_.html#functionkey" class="tsd-kind-icon">Function<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/_thread_handle_.html#ordinal" class="tsd-kind-icon">Ordinal</a>
