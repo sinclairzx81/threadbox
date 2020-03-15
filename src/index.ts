@@ -88,7 +88,7 @@ export type MainInterface = {
 
 /**
  * Registers a constructor as the application main entry point. This constructor
- * will be called automatically when the program run.
+ * will be instanced automatically when the program is run.
  */
 export function __Main(constructor: new (...args: any[]) => MainInterface) {
 
@@ -97,7 +97,7 @@ export function __Main(constructor: new (...args: any[]) => MainInterface) {
 
 /**
  * [decorator] Registers a constructor as the application main entry point. This constructor
- * will be called automatically when the program run. Alias for `__Main(constructor)`.
+ * will be instanced automatically when the program is run. Alias for `__Main(constructor)`.
  */
 export function Main() {
 
