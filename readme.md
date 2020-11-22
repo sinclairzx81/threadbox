@@ -96,6 +96,7 @@ $ npm install @sinclair/threadbox --save
 - [Thread](#Thread)
 - [Spawn](#Spawn)
 - [Channel](#Channel)
+- [Select](#Select)
 - [Marshal](#Marshal)
 - [Mutex](#Mutex)
 - [SharedArrayBuffer](#SharedArrayBuffer)
@@ -272,6 +273,31 @@ import { spawn, into, Main, Worker, channel, Sender, Receiver } from '@sinclair/
         }
         await worker.dispose()
     }
+}
+```
+
+<a name="Select"></a>
+
+## Select
+
+Using channels, its possible to receive on multiple receivers using the `select()` function. The following demonstrates its use.
+
+```typescript
+import { channel, select } from '@sinclair/threadbox'
+
+// setup some channels...
+const [sender0, receiver0] = channel<number>()
+const [sender1, receiver1] = channel<string>()
+const [sender2, receiver2] = channel<boolean>()
+
+// send some values...
+sender0.send(42)
+sender1.send('hello')
+sender2.send(true)
+
+// receive from any...
+for await(const value of select([receiver0, receiver1, receiver2])) {
+    // value is number | string | boolean
 }
 ```
 
