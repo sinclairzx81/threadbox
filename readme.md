@@ -76,7 +76,7 @@ ThreadBox uses a recursive pattern to spawn worker threads. ThreadBox will recur
 
 ThreadBox was built as a research project and is primarily geared towards TypeScript development. It does however provide a non-decorator based fallback API for JavaScript users. This library is offered as is to anyone who may find it of use.
 
-Built with Node 12.16.1 LTS and TypeScript 3.8.3.
+Built with Node 12.16.1 LTS and TypeScript 4.1.2.
 
 Licence MIT
 
