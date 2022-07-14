@@ -1,6 +1,2 @@
-# build artifacts
 node_modules
-spec.js
-
-# blender
-doc/blender/threadbox.blend1
+target
