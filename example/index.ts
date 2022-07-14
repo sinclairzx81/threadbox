@@ -1,6 +1,6 @@
 import { Thread } from '@sinclair/threadbox'
 
-const Worker = Thread.Constructor(class {
+const Worker = Thread.Worker(class {
     public echo(message: string) {
         return message
     }

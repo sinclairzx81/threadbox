@@ -18,13 +18,13 @@ The following replicates the above worker graph.
 ```typescript
 import { Thread, Sender, Receiver } from '@sinclair/threadbox'
 
-const WorkerC = Thread.Constructor(class {
+const WorkerC = Thread.Worker(class {
   run() {
     return Math.random()
   }
 })
 
-const WorkerB = Thread.Constructor(class {
+const WorkerB = Thread.Worker(class {
   async run(sender: Sender) {
     const c_0 = Thread.Spawn(WorkerC)
     const c_1 = Thread.Spawn(WorkerC)
@@ -44,7 +44,7 @@ const WorkerB = Thread.Constructor(class {
     await c_3.dispose()
   }
 })
-const WorkerA = Thread.Constructor(class {
+const WorkerA = Thread.Worker(class {
   async run(receiver: Receiver) {
     for await(const [a, b, c, d] of receiver) { }
   }
@@ -86,7 +86,7 @@ $ npm install @sinclair/threadbox --save
 - [Install](#Install)
 - [Overview](#Overview)
 - [Main](#Main)
-- [Constructor](#Constructor)
+- [Worker](#Worker)
 - [Marshal](#Marshal)
 - [Spawn](#Spawn)
 - [Channel](#Channel)
@@ -108,16 +108,16 @@ Thread.Main(() => {
 })
 ```
 
-<a name="Constructor"></a>
+<a name="Worker"></a>
 
-## Constructor
+## Worker
 
-Use `Thread.Constructor(...)` to denote a class as threadable. This enables the class to be spawned via `Thread.Spawn(...)`. The return type of this function returns the inner constructor that can be instanced in the current thread.
+Use `Thread.Worker(...)` to denote a class as threadable. This enables the class to be spawned via `Thread.Spawn(...)`. The return type of this function returns the inner constructor that can be instanced in the current thread.
 
 ```typescript
 import { Thread } from '@sinclair/threadbox'
 
-const Basic = Thread.Constructor(class {
+const Basic = Thread.Worker(class {
     add(a: number, b: number) {
         return a + b
     }
@@ -147,7 +147,7 @@ The `Thread.Spawn(...)` to spawn a new constructor in a remote worker thread. Th
 ```typescript
 import { Thread } from '@sinclair/threadbox'
 
-const Runner = Thread.Constructor(class {
+const Runner = Thread.Worker(class {
   constructor(private taskName: string) {
     console.log(`Runner: ${taskName}`)
   }
@@ -161,7 +161,7 @@ const Runner = Thread.Constructor(class {
 
 Thread.Main(async () => {
   const runner = Thread.Spawn(Runner, 'Name of Runner')
-  await runner.execute()
+  await runner.process()
   await runner.dispose()
 })
 ```
@@ -175,7 +175,7 @@ Use `Thread.Channel<T>()` to create a messaging channel to communicate between t
 ```typescript
 import { Thread, Sender, Receiver } from '@sinclair/threadbox'
 
-const Numbers = Thread.Constructor(class {
+const Numbers = Thread.Worker(class {
   start(sender: Sender<number>) {
     for(let i = 0; i < 1024; i++) {
         sender.send(i)
@@ -212,7 +212,7 @@ const Transferrable = Thread.Marshal({
     }
 })
 
-const Worker = Thread.Constructor({
+const Worker = Thread.Worker({
     execute(transferable: Transferrable) {
         transferable.method() // callable
     }
@@ -238,7 +238,7 @@ Use `Thread.Mutex(...)` to create a lock on critical sections. This should only 
 ```typescript
 import { Thread, Mutex } from '@sinclair/threadbox'
 
-const Worker = Thread.Constructor(class {
+const Worker = Thread.Worker(class {
   constructor(private readaonly mutex: Mutex) {}
 
   execute(data: Uint8Array, value: number) {

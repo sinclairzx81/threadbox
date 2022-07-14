@@ -44,8 +44,8 @@ export type MainFunction = (...args: any[]) => Promise<void> | void
 /** Creates Recursive Worker Threads */
 export namespace Thread {
 
-    /** Registers a constructor as threadable. Instances of this class can be created with Thread.Spawn() */
-    export function Constructor(constructor: new (...args: any[]) => any) {
+    /** Registers a class as a Worker. This enables this class to be instanced with Thread.Spawn() */
+    export function Worker(constructor: new (...args: any[]) => any) {
 
         ThreadRegistry.registerWorkerConstructor(constructor)
 
