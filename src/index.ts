@@ -41,6 +41,7 @@ export type ThreadInterface<T> = { [K in FunctionKeys<T>]: ThreadInterfaceFuncti
 
 export type MainFunction = (...args: any[]) => Promise<void> | void
 
+/** Creates Recursive Worker Threads */
 export namespace Thread {
 
     /** Registers a constructor as threadable. Instances of this class can be created with Thread.Spawn() */
