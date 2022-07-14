@@ -7,7 +7,7 @@
 [![npm version](https://badge.fury.io/js/%40sinclair%2Fthreadbox.svg)](https://badge.fury.io/js/%40sinclair%2Fthreadbox)
 [![Build Status](https://travis-ci.org/sinclairzx81/threadbox.svg?branch=master)](https://travis-ci.org/sinclairzx81/threadbox)
 
-<img src='./doc/threadbox.png'></img>
+<img src='./.build/threadbox.png'></img>
 
 </div>
 
