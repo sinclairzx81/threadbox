@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "ES2020",
+        "module": "CommonJS",
+        "experimentalDecorators": true,
+        "downlevelIteration": true,
+        "baseUrl": ".",
+        "paths": {
+            "@sinclair/threadbox": ["src/index.ts"]
+        }
+    }
+}

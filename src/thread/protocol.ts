@@ -56,14 +56,14 @@ type FunctionKey = string;
 
 // #region Commands
 
-/** Parent > Worker */ export type Construct = { kind: 'construct', ordinal: number, threadKey: ThreadKey, args: any[] };
-/** Parent > Worker */ export type Execute   = { kind: 'execute',   ordinal: number, functionKey: FunctionKey, args: any[] };
-/** Worker < Parent */ export type Result    = { kind: 'result',    ordinal: number, result: any };
-/** Worker < Parent */ export type Error     = { kind: 'error',     ordinal: number, error: string };
-/** Parent > Worker */ export type Dispose   = { kind: 'dispose',   ordinal: number };
-/** Worker > Parent */ export type Disposed  = { kind: 'disposed',  ordinal: number };
-/** Parent > Worker */ export type Terminate = { kind: 'terminate' };
-export type Command   = Construct | Execute | Result | Error | Dispose | Disposed | Terminate
+/** Parent > Worker */ export type CommandConstruct = { kind: 'construct', ordinal: number, threadKey: ThreadKey, args: any[] };
+/** Parent > Worker */ export type CommandExecute   = { kind: 'execute',   ordinal: number, functionKey: FunctionKey, args: any[] };
+/** Worker < Parent */ export type CommandResult    = { kind: 'result',    ordinal: number, result: any };
+/** Worker < Parent */ export type CommandError     = { kind: 'error',     ordinal: number, error: string };
+/** Parent > Worker */ export type CommandDispose   = { kind: 'dispose',   ordinal: number };
+/** Worker > Parent */ export type CommandDisposed  = { kind: 'disposed',  ordinal: number };
+/** Parent > Worker */ export type CommandTerminate = { kind: 'terminate' };
+export type Command = CommandConstruct | CommandExecute | CommandResult | CommandError | CommandDispose | CommandDisposed | CommandTerminate
 
 // #endregion
 
@@ -90,7 +90,7 @@ export class ThreadProtocol {
     // #region Encode
 
     /** Encodes the `construct` protocol message. */
-    private static encodeConstruct(command: Construct): ConstructMessage {
+    private static encodeConstruct(command: CommandConstruct): ConstructMessage {
         return {
             ...command,
             args: command.args.map((arg: any) => {
@@ -109,7 +109,7 @@ export class ThreadProtocol {
         }
     }
     /** Encodes the `execute` protocol message. */
-    private static encodeExecute(command: Execute): ExecuteMessage {
+    private static encodeExecute(command: CommandExecute): ExecuteMessage {
         return {
             ...command,
             args: command.args.map(arg => {
@@ -128,7 +128,7 @@ export class ThreadProtocol {
         }
     }
     /** Encodes the `result` protocol message. */
-    private static encodeResult(command: Result): ResultMessage {
+    private static encodeResult(command: CommandResult): ResultMessage {
         return {
             ...command,
             result: MarshalEncoder.isInstanceMarshalled(command.result)
@@ -142,19 +142,19 @@ export class ThreadProtocol {
         }
     }
     /** Encodes the `error` protocol message. */
-    private static encodeError(command: Error): ErrorMessage {
+    private static encodeError(command: CommandError): ErrorMessage {
         return { ...command }
     }
     /** Encodes the `dispose` protocol message. */
-    private static encodeDispose(command: Dispose): DisposeMessage {
+    private static encodeDispose(command: CommandDispose): DisposeMessage {
         return { ...command }
     }
     /** Encodes the `disposed` protocol message. */
-    public static encodeDisposed(command: Disposed): DisposedMessage {
+    public static encodeDisposed(command: CommandDisposed): DisposedMessage {
         return { ...command }
     }
     /** Encodes the `terminate` protocol message. */
-    private static encodeTerminate(command: Terminate): TerminateMessage {
+    private static encodeTerminate(command: CommandTerminate): TerminateMessage {
         return { ...command }
     }
     /** Encodes the given `Command` as a protocol message. */
@@ -176,7 +176,7 @@ export class ThreadProtocol {
     // #region Decode
 
     /** Decodes the `construct` protocol message. */
-    private static decodeConstruct(message: ConstructMessage): Construct {
+    private static decodeConstruct(message: ConstructMessage): CommandConstruct {
         return {
             ...message,
             args: message.args.map(param => {
@@ -189,7 +189,7 @@ export class ThreadProtocol {
         }
     }
     /** Decodes the `execute` protocol message. */
-    private static decodeExecute(message: ExecuteMessage): Execute {
+    private static decodeExecute(message: ExecuteMessage): CommandExecute {
         return {
             ...message,
             args: message.args.map(param => {
@@ -202,7 +202,7 @@ export class ThreadProtocol {
         }
     }
     /** Decodes the `result` protocol message. */
-    private static decodeResult(message: ResultMessage): Result {
+    private static decodeResult(message: ResultMessage): CommandResult {
         return {
             ...message,
             result: message.result.kind === 'marshalled'
@@ -211,19 +211,19 @@ export class ThreadProtocol {
         }
     }
     /** Decodes the `error` protocol message. */
-    private static decodeError(message: ErrorMessage): Error {
+    private static decodeError(message: ErrorMessage): CommandError {
         return { ...message }
     }
     /** Decodes the `dispose` protocol message. */
-    private static decodeDispose(message: DisposeMessage): Dispose {
+    private static decodeDispose(message: DisposeMessage): CommandDispose {
         return { ...message }
     }
     /** Decodes the `disposed` protocol message. */
-    private static decodeDisposed(message: DisposedMessage): Disposed {
+    private static decodeDisposed(message: DisposedMessage): CommandDisposed {
         return { ...message }
     }
     /** Decodes the `terminate` protocol message. */
-    private static decodeTerminate(message: TerminateMessage): Terminate {
+    private static decodeTerminate(message: TerminateMessage): CommandTerminate {
         return { ...message }
     }
     /** Decodes a protocol message. */

@@ -1,12 +1,4 @@
 {
-    "compilerOptions": {
-        "strict": true,  
-        "module": "CommonJS",
-        "target": "ESNext",
-        "outDir": "../dist",
-        "declaration": true,
-        "downlevelIteration": true
-    }, "include": [
-        "./**/*.ts"
-    ]
+    "extends": "../tsconfig.json",
+    "files": [ "index.ts" ]
 }

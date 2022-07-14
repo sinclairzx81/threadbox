@@ -26,87 +26,12 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { ThreadLocal, ThreadRegistry, ThreadHandle, ThreadResourceLimits }  from './thread/index'
-import { MarshalEncoder }                                                   from './marshal/index'
-
-export { channel, select, Sender, Receiver, EOF }                           from './channel/index'
-export { into }                                                             from './async/index'
-export { Mutex, MutexLock }                                                 from './mutex/index'
-
-// #region Marshal
-
-/** 
- * Registers this class as marshalled. This will enable instances 
- * of this class to be sent and re-constructed when passed 
- * between threads boundaries.
- */
-export function __Marshal<T extends any[], R>(constructor: new (...args: T) => R) {
-
-    MarshalEncoder.register(constructor)
-}
-
-/** 
- * [decorator] Registers this class as marshalled. This will enable instances 
- * of this class to be sent and re-constructed when passed 
- * between threads boundaries. Alias for `__Marshal(constructor)`
- */
-export function Marshal() {
-
-    return <T extends any[], R>(constructor: new (...args: T) => R) => __Marshal(constructor)
-}
-
-// #endregion
-
-// #region Thread
-
-/**
- * Registers a constructor as threadable. This allows this constructor to be 
- * instanced within remote worker threads via `spawn()`
- */
-export function __Thread(constructor: new (...args: any[]) => any) {
-
-    ThreadRegistry.registerWorkerConstructor(constructor)
-}
-
-/**
- * [decorator] Registers a constructor as threadable. This allows this constructor to be 
- * instanced within remote threads via `spawn()`. Alias for `__Thread(constructor)`.
- */
-export function Thread() {
-
-    return (constructor: new (...args: any[]) => any) => __Thread(constructor)
-}
-
-// #endregion
-
-// #region Main
-
-export type MainInterface = {
-
-    main(args: string[]): Promise<void> | void
-}
-
-/**
- * Registers a constructor as the application main entry point. This constructor
- * will be instanced automatically when the program is run.
- */
-export function __Main(constructor: new (...args: any[]) => MainInterface) {
-
-    ThreadRegistry.registerMainConstructor(constructor)
-}
-
-/**
- * [decorator] Registers a constructor as the application main entry point. This constructor
- * will be instanced automatically when the program is run. Alias for `__Main(constructor)`.
- */
-export function Main() {
-
-    return (constructor: new (...args: any[]) => MainInterface) => __Main(constructor)
-}
-
-// #endregion
-
-// #region Spawn
+import { ThreadLocal, ThreadRegistry, ThreadHandle, ThreadResourceLimits } from './thread/index'
+import { MarshalEncoder } from './marshal/index'
+import { channel } from './channel/channel'
+export { channel, select, Sender, Receiver, EOF } from './channel/index'
+export { into } from './async/index'
+export { Mutex, MutexLock } from './mutex/index'
 
 export type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
 
@@ -114,29 +39,66 @@ export type ThreadInterfaceFunction<T> = T extends (...args: infer U) => infer R
 
 export type ThreadInterface<T> = { [K in FunctionKeys<T>]: ThreadInterfaceFunction<T[K]> } & { dispose: () => Promise<void> }
 
+export type MainFunction = (...args: any[]) => Promise<void> | void
 
-/**
- * Spawns a new worker thread with the given resourceLimits and constructor. The additional arguments given 
- * will be injected into the constructor when instanced in the remote thread. The constructor argument must
- * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
- */
-export function spawn<T extends any[], R>(resourceLimits: ThreadResourceLimits, constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+export namespace Thread {
 
-/**
- * Spawns a new worker thread with the given constructor. The additional arguments given will be
- * injected into the constructor when instanced in the remote thread. The constructor argument must
- * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
- */
-export function spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+    /** Registers a constructor as threadable. Instances of this class can be created with Thread.Spawn() */
+    export function Constructor(constructor: new (...args: any[]) => any) {
 
-/** Spawns a new thread with the given arguments. */
-export function spawn(...args: any[]): ThreadInterface<any> {
-    const overloads = ThreadRegistry.getThreadKeyFromConstructor(args[0]) !== null ? [{}, ...args] : [...args]
-    const resourceLimits = overloads.shift()
-    const constructor = overloads.shift()
-    return ThreadHandle.create(resourceLimits, constructor, ...overloads) as ThreadHandle & ThreadInterface<any>
+        ThreadRegistry.registerWorkerConstructor(constructor)
+
+        return constructor
+    }
+
+    /** Creates a channel whose Sender and Receiver can be shared between threads. */
+    export function Channel<T>() {
+
+        return channel<T>()
+    }
+
+    /** Registers this class as marshalled. This enables this class to be passed between threads. */
+    export function Marshal<T extends any[], R>(constructor: new (...args: T) => R) {
+
+        MarshalEncoder.register(constructor)
+
+        return constructor
+    }
+
+
+
+    /** Registers a function as the application main entry point. */
+    export function Main(func: MainFunction) {
+
+        ThreadRegistry.registerMainConstructor(class {
+            async main() {
+                await func()
+            }
+        })
+    }
+
+    /**
+     * Spawns a new worker thread with the given resourceLimits and constructor. The additional arguments given 
+     * will be injected into the constructor when instanced in the remote thread. The constructor argument must
+     * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
+     */
+    export function Spawn<T extends any[], R>(resourceLimits: ThreadResourceLimits, constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+
+    /**
+     * Spawns a new worker thread with the given constructor. The additional arguments given will be
+     * injected into the constructor when instanced in the remote thread. The constructor argument must
+     * be registered as threadable or a `ConstructorNotThreadableError` error will be thrown.
+     */
+    export function Spawn<T extends any[], R>(constructor: new (...args: T) => R, ...args: T): ThreadInterface<R>
+
+    /** Spawns a new thread with the given arguments. */
+    export function Spawn(...args: any[]): ThreadInterface<any> {
+        const overloads = ThreadRegistry.getThreadKeyFromConstructor(args[0]) !== null ? [{}, ...args] : [...args]
+        const resourceLimits = overloads.shift()
+        const constructor = overloads.shift()
+        return ThreadHandle.create(resourceLimits, constructor, ...overloads) as ThreadHandle & ThreadInterface<any>
+    }
+
 }
-
-// #endregion
 
 ThreadLocal.start()

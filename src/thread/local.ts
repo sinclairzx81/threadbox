@@ -27,7 +27,7 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 import { isMainThread, workerData, parentPort, MessagePort } from 'worker_threads'
-import { ThreadProtocol, ConstructMessage, Command, Construct, Execute, Dispose, Terminate } from './protocol'
+import { ThreadProtocol, ConstructMessage, Command, CommandConstruct, CommandExecute, CommandDispose, CommandTerminate } from './protocol'
 import { ThreadRegistry } from './registry'
 
 // #region Errors
@@ -57,7 +57,7 @@ export type WorkerData = {
  */
 export class ThreadLocal {
     /** Executes a function on the instance. */
-    private static async execute(port: MessagePort, instance: any, command: Execute) {
+    private static async execute(port: MessagePort, instance: any, command: CommandExecute) {
         const func = await instance[command.functionKey] as Function
         if (typeof func !== 'function') {
             const ordinal = command.ordinal
@@ -79,7 +79,7 @@ export class ThreadLocal {
     }
 
     /** Attempts to call dispose on the instance. If not exists, just respond 'disposed' */
-    private static async dispose(port: MessagePort, instance: any, command: Dispose) {
+    private static async dispose(port: MessagePort, instance: any, command: CommandDispose) {
         const func = await instance['dispose'] as Function
         if (func) {
             await func.apply(instance, [])
@@ -90,7 +90,7 @@ export class ThreadLocal {
     }
 
     /** Terminates this process. */
-    private static terminate(_port: MessagePort, _instance: any, _command: Terminate) {
+    private static terminate(_port: MessagePort, _instance: any, _command: CommandTerminate) {
         setImmediate(() => process.exit(0))
     }
 
@@ -120,7 +120,7 @@ export class ThreadLocal {
             }
             // Activate worker
             else if (workerData && parentPort && workerData.construct) {
-                const construct = ThreadProtocol.decode(workerData.construct) as Construct
+                const construct = ThreadProtocol.decode(workerData.construct) as CommandConstruct
                 const constructor = ThreadRegistry.getConstructorFromThreadKey(construct.threadKey)
                 if (constructor) {
                     const instance = new constructor(...construct.args)

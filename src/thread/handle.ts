@@ -27,7 +27,7 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 import { Worker, WorkerOptions } from 'worker_threads'
-import { ThreadProtocol, Message, Error, Result, Disposed, Command } from './protocol'
+import { ThreadProtocol, Message, CommandError, CommandResult, CommandDisposed, Command } from './protocol'
 import { ThreadRegistry } from './registry'
 import { extname } from 'path'
 
@@ -123,19 +123,19 @@ export class ThreadHandle {
     }
 
     /** Protocol: Result Handler. */
-    private onResult(command: Result) {
+    private onResult(command: CommandResult) {
         const [resolve, _] = this.getAwaiter(command.ordinal)
         resolve(command.result)
     }
 
     /** Protocol: Error Handler. */
-    private onError(command: Error) {
+    private onError(command: CommandError) {
         const [_, reject] = this.getAwaiter(command.ordinal)
         reject(command.error)
     }
 
     /** Protocol: Disposed Handler. */
-    private onDisposed(command: Disposed) {
+    private onDisposed(command: CommandDisposed) {
         const [resolve, _] = this.getAwaiter(command.ordinal)
         const [message, transferList] = ThreadProtocol.encode({ kind: 'terminate' })
         this.worker.postMessage(message, transferList)
