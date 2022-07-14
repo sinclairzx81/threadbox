@@ -1,6 +1,5 @@
 # build artifacts
 node_modules
-dist
 spec.js
 
 # blender
