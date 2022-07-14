@@ -70,7 +70,7 @@ Thread.Main(() => {
 
 ThreadBox is a threading library for JavaScript built on top of NodeJS `worker_threads`. It is written to allow for compute intensive and potentially blocking JavaScript routines to be easily executed in remote worker threads. ThreadBox uses a recursive threading model, where spawned threads are created by re-running the applications entry module (typically `app.js`). This approach allows for ergonomic threading, but requires code executed in the global scope to be moved into functions and classes.
 
-This project is written as a research project to explore the potential for recursive threading in Node, and is offered to anyone who may find it of use.
+This project is written as a research project to explore the potential for recursive threading in Node. It is offered to anyone who may find it of use.
 
 Licence MIT
 
